@@ -1,1 +1,1 @@
-### https://hataa33.github.io/
+### https://hataa33.github.io/blog/
