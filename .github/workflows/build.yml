@@ -1,9 +1,12 @@
-name: build to my github-pages
+name: build to my blog-pages
 
 on:
   push:
     branches:
       - main
+
+permissions:
+  contents: write
 
 jobs:
   deploy:
@@ -16,9 +19,8 @@ jobs:
       - run: yarn install
       - name: Build
         run: yarn build
-        
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v4
+
+      - name: Deploy 🚀
+        uses: JamesIves/github-pages-deploy-action@v4
         with:
-          deploy_key: ${{ secrets.ACTION_SECRET }}
-          publish_dir: build
+          folder: build

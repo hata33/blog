@@ -7,7 +7,7 @@ import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import Heading from "@theme/Heading";
 import styles from "./index.module.css";
 import logo from "@site/static/img/avatar.jpg";
-import noise from "@site/static/img/noise.png";
+import noise from "@site/static/img/noise.jpg";
 console.log(logo);
 function HomepageHeader() {
   const { siteConfig } = useDocusaurusContext();
@@ -24,7 +24,7 @@ function HomepageHeader() {
             className="button button--secondary button--lg"
             to="/docs/intro"
           >
-            博客世界 →
+            博客 →
           </Link>
         </div>
       </div>
