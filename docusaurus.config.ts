@@ -9,7 +9,7 @@ const config: Config = {
 
   // Set the production url of your site here
   url: "https://hata33.github.io",
-  baseUrl: "/",
+  baseUrl: "/blog/",
 
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
