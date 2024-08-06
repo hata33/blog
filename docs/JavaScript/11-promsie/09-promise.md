@@ -258,3 +258,88 @@ class myPromise{
 }
 
 ```
+
+### 实现 Promise.allSettled
+
+```js
+class myPromise {
+  static allSettled(promises) {
+    return new myPromise((resolve, reject) => {
+      if (Array.isArray(promises)) {
+        let result = [];
+        let count = 0;
+        if (promises.length === 0) return resolve(promises);
+        promises.forEach((item, index) => {
+          myPromise.resolve(item).then(
+            (value) => {
+              count++;
+              result[index] = {
+                status: "fulfilled",
+                value,
+              };
+              count === promise.length && resolve(result);
+            },
+            (reason) => {
+              count++;
+              result[index] = {
+                status: "rejected",
+                reason,
+              };
+              count === promise.length && resolve(result);
+            }
+          );
+        });
+      } else {
+        return reject(new TypeError("Argument is not iterable"));
+      }
+    });
+  }
+}
+```
+
+### 实现 Promise.any
+
+```js
+static any(promises) {
+ return new Promise((resolve, reject) => {
+   if (Array.isArray(promises)) {
+     let errors = [];
+     let count = 0;
+     if (promises.length === 0)
+       return reject(new AggregateError("All promise were rejected"));
+     promises.forEach((item) => {
+       myPromises.resolve(item).then(
+         (value) => {
+           resolve(value);
+         },
+         (reason) => {
+           count++;
+           errors.push(reason);
+           count === promises.length && reject(new AggregateError(errors));
+         }
+       );
+     });
+   } else {
+     return reject(new TypeError("Argument is not iterable"));
+   }
+ });
+}
+```
+
+### 实现 Promise.race
+
+```js
+static race(promises) {
+ return new myPromise((resolve, reject) => {
+   if (Array.isArray(promises)) {
+     if (promises.length > 0) {
+       promises.forEach(item => {
+         myPromise.resolve(item).then(resolve, reject);
+       })
+     }
+   } else {
+     return reject(new TypeError('Argument is not iterable'))
+   }
+ })
+}
+```
