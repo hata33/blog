@@ -556,3 +556,525 @@ PostCSS 的作用主要有以下几个方面：
 5. 编写自定义插件：PostCSS 的插件机制非常灵活，可以根据项目需求编写自定义的插件，进行各种 CSS 转换和处理操作，如自定义属性、自定义函数等。
 
 可以用于增强 CSS 的能力，并提供更好的开发体验和效果优化。
+
+### html 元素有多个 class 名称，对于的渲染优先级
+
+CSS 的渲染优先级遵循以下规则：
+
+内联样式（Inline Styles）具有最高优先级。如果在元素节点的 style 属性中定义了内联样式，它将覆盖所有其他样式规则。
+
+如果多个 class 名称对应的样式规则具有相同的优先级，将根据它们在 HTML 文档中出现的顺序进行应用。后面出现的样式规则将覆盖先前出现的规则。
+
+如果不同 class 名称对应的样式规则具有不同的优先级，将根据选择器的权重来决定应用的样式规则。选择器的权重由选择器类型、选择器的组合和使用的选择器数量等因素确定。一般而言，ID 选择器的权重最高，然后是类选择器和属性选择器，最后是元素选择器和伪类选择器。
+
+遵循：先根据规则定义和选择器优先级的权重影响。如果样式规则具有相同的优先级，则根据它们在 HTML 文档中的出现顺序进行应用。如果样式规则具有不同的优先级，则根据选择器的权重来决定应用的样式规则。
+
+### 如何避免全局样式污染
+
+全局样式命名冲突和样式覆盖问题怎么解决？
+
+1. 使用命名约定：给不同组件、模块或页面的样式类名添加特定的前缀，以确保它们的作用范围只在对应的组件、模块或页面内生效。例如，使用 BEM（Block Element Modifier）命名约定可以将样式类名划分为块、元素和修饰符，以实现更明确的样式隔离。
+
+2. 使用 CSS-in-JS：使用 CSS-in-JS 技术，将样式直接与组件绑定，可以避免全局样式的冲突。每个组件都有自己的样式定义，不会影响其他组件。
+
+3. 使用 CSS Modules：CSS Modules 是一种 CSS 模块化的解决方案，它通过将 CSS 文件与组件绑定，在构建过程中自动生成唯一的类名，从而实现样式的局部作用域。这样可以避免全局样式冲突。
+
+4. 使用作用域限定符：使用 CSS 预处理器（如 Sass 或 Less）的作用域限定符（如父选择器 &）来限制样式的作用范围。通过嵌套样式规则，并使用作用域限定符，可以确保样式仅应用于特定的父元素。
+
+5. 使用样式重置/规范：使用样式重置或规范库，如 Normalize.css，可以消除浏览器默认样式的差异，以确保在不同浏览器下呈现一致的样式，并避免全局样式污染。
+
+6. 使用模块化开发框架：使用诸如 React、Vue 或 Angular 等模块化开发框架，它们提供了组件化的开发模式，每个组件具有独立的样式作用域，可以避免全局样式的冲突。
+
+### 常用的 css 库
+
+1. CSS Modules：CSS Modules 是一种 CSS 模块化的解决方案，可以将样式文件与组件绑定，生成唯一的类名，实现样式的局部作用域。常见的 CSS Modules 实现包括 webpack 的 css-loader 和 vue-style-loader。
+
+2. CSS-in-JS：CSS-in-JS 是一种将 CSS 样式直接写在 JavaScript 代码中的技术，通过将样式与组件绑定，可以实现样式的局部作用域。常见的 CSS-in-JS 工具库有 styled-components、Emotion、Vue 的 scoped CSS 等。
+
+3. CSS Reset/Normalize：CSS Reset 或 Normalize.css 是一种重置或规范化浏览器默认样式的方法，通过统一浏览器样式差异，避免全局样式污染。
+
+4. PostCSS 插件：PostCSS 是一个强大的 CSS 处理工具，可以通过使用各种插件来帮助避免全局样式污染。例如，postcss-modules 可以将样式文件转换为 CSS Modules 格式，postcss-preset-env 可以根据目标浏览器自动添加前缀。
+
+5. CSS 预处理器：CSS 预处理器如 Sass 或 Less 提供了作用域限定符和嵌套样式规则的功能，可以帮助限制样式的作用范围，避免全局样式冲突。
+
+### 实现顶部滚动进度条
+
+1. 监听滚动事件
+2. 计算滚动进度
+3. 将滚动进度的样式设置为顶部进度条的进度
+
+### 文本溢出隐藏
+
+```css
+/* 单行文本溢出 */
+.ellipsis {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 多行文本溢出 */
+.ellipsis-multiline {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3; /* 设置显示的行数 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+```
+
+### css module 是什么
+
+CSS Modules 是一种用于组织和管理 CSS 的技术。它通过在编译时为每个 CSS 类名生成唯一的标识符，并将它们作为 JavaScript 对象的属性导出。这样，可以确保每个类名在整个应用程序中的唯一性，避免样式冲突。
+
+使用 CSS Modules，可以将 CSS 文件与组件文件绑定在一起，这样每个组件都有自己的 CSS 作用域，样式只会应用于特定的组件，不会影响其他组件。这种隔离性和局部作用域有助于降低样式冲突和维护 CSS 的复杂性。
+
+CSS Modules 还提供了一些其他功能，例如:
+
+1. 局部作用域: CSS Modules 允许在组件中定义局部样式，这些样式仅适用于该组件。这样，可以避免全局样式造成的副作用，并使组件更加可重用。
+
+2. 类名和样式的映射: 使用 CSS Modules，可以通过导入生成的样式对象，将类名映射到组件中的类名，并将其应用于相应的元素。这样可以方便地将样式与组件关联起来，并跟踪样式的变化。
+
+3. 继承和组合: CSS Modules 支持继承和组合样式。可以通过使用类名组合和继承规则，将多个样式应用于同一个元素或组件。
+
+总结来说，CSS Modules 提供了一种更可靠和可维护的方式来管理 CSS，通过实现局部作用域和唯一类名标识符，帮助开发者避免样式冲突和提高样式的可重用性。
+
+### css 加载会阻塞 DOM 树渲染吗
+
+css 加载不会阻塞 DOM 树的解析
+
+css 加载会阻塞 DOM 树的渲染
+
+css 加载会阻塞后面 js 语句的执行
+
+因此，为了避免让用户看到长时间的白屏时间，我们应该尽可能的提高 css 加载速度，比如可以使用以下几种方法:
+
+使用 CDN(因为 CDN 会根据你的网络状况，替你挑选最近的一个具有缓存内容的节点为你提供资源，因此可以减少加载时间)
+对 css 进行压缩(可以用很多打包工具，比如 webpack,gulp 等，也可以通过开启 gzip 压缩)
+合理的使用缓存(设置 cache-control,expires,以及 E-tag 都是不错的，不过要注意一个问题，就是文件更新后，你要避免缓存而带来的影响。其中一个解决防范是在文件名字后面加一个版本号)
+减少 http 请求数，将多个 css 文件合并，或者是干脆直接写成内联样式(内联样式的一个缺点就是不能缓存)
+
+### display 的属性
+
+以下是一些常见的 display 属性值及其含义：
+
+none：元素不会被显示。
+
+block：元素显示为块级元素，此类元素会新起一行。
+
+inline：元素不会新起一行，其宽度只占据它的内容宽度。
+
+inline-block：元素横排显示，但是同时具备块级元素的特性，比如可以设置宽高。
+
+flex：元素会变成弹性容器（flex container），其子元素会成为弹性项（flex items）。这个值允许使用弹性盒子布局（flexbox）。
+
+grid：元素会变成网格容器，其子元素会成为网格项。它开启了网格布局。
+
+table、table-row、table-cell 等：这些值让元素表现得像表格元素一样。
+
+list-item：元素会表现为列表项（像`<li>`元素一样）。
+
+### css 属性计算 calc
+
+```css
+/* 基本运算 */
+.element {
+  width: calc(100% - 80px);
+}
+
+/* 混合单位 */
+.element {
+  margin-top: calc(50vh - 50px);
+}
+
+/* 嵌套 */
+.element {
+  width: calc(100% - calc(50px + 2em));
+}
+
+/* 环境变量 */
+:root {
+  --main-padding: 10px;
+}
+
+.element {
+  padding: calc(var(--main-padding) * 2);
+}
+
+/* 动态值调整 */
+.element {
+  position: absolute;
+  bottom: calc(50% - 20px);
+}
+```
+
+当使用 calc() 时有一些规则需要注意，例如:
+
+运算符之间需要有空格。calc(50% -50px) 是无效的，而 calc(50% - 50px) 是有效的。
+不能进行 0 除运算，也就是说分母不能为 0。
+在进行乘法和除法时，至少有一个值必须是数值（即不带单元的数字）。
+总的来说，calc() 是一个强大的 CSS 工具，可以在响应式设计和复杂布局管理中提供极大的帮助。
+
+### css 设置渐变色
+
+线性渐变：
+
+```css
+.element {
+  background: linear-gradient(direction, color-stop1, color-stop2, ...);
+}
+```
+
+径向渐变：
+
+```css
+.element {
+  background: radial-gradient(shape size, color-stop1, color-stop2, ...);
+}
+```
+
+重复渐变：
+
+```css
+.gradient {
+  background: repeating-linear-gradient(
+    to bottom,
+    blue,
+    white 20px,
+    white 40px
+  );
+}
+```
+
+### 样式隔离
+
+1. CSS 模块（CSS Modules）
+   CSS 模块是一种在构建时将 CSS 类名局部作用域化的技术。每个类名都是独一无二的，通常通过添加哈希值来实现。当你导入一个 CSS 模块，会得到一个包含生成的类名的对象。这样可以确保样式的唯一性，并防止样式冲突。
+
+2. Shadow DOM
+   Shadow DOM 是 Web 组件规范的一部分，它允许将一段不受外界影响的 DOM 附加到元素上。在 Shadow DOM 中的样式是局部的，不会影响外部的文档样式。
+
+3. CSS-in-JS 库
+   CSS-in-JS 是一种技术，允许你用 JavaScript 编写 CSS，并在运行时生成唯一的类名。常见的库有 Styled-components、Emotion 等。这些库通常提供自动的样式隔离，并且还支持主题化和动态样式。
+
+4. 使用 BEM（Block Element Modifier）命名约定
+   BEM 是一种 CSS 命名方法，通过使用严格的命名规则来保持样式的模块化。通过将样式绑定到特定的类名上，这种方法有助于防止样式泄露。
+
+5. CSS Scoped
+   在 Vue.js 中，可以为`<style>`标签添加 scoped 属性，这将使用 Vue 的编译器来实现样式的作用域。虽然这不是一个标准的 Web 特性，但它在 Vue 生态系统中提供了很方便的样式隔离。
+
+6. 使用 iframe
+   将组件或部分页面放在 iframe 中可以提供非常强的样式和脚本隔离。尽管如此，iframe 通常不是最佳选择，因为它们可能导致性能问题，而且使得组件间的沟通变得更加困难。
+
+7. Web 组件
+   Web 组件利用了自定义元素和 Shadow DOM 来创建封装的、可复用的组件。在 Web 组件中，可以使用 Shadow DOM 实现真正的样式和脚本隔离。
+
+8. 封装的 CSS 架构
+   准确使用 CSS 选择器，避免使用全局标签选择器或基础类，而是使用更具体的类选择器可以部分隔离样式。此外，可以设置严格的 CSS 命名策略，不同模块使用不同的命名前缀，以避免名称冲突。
+
+9. PostCSS 插件
+   使用 PostCSS 插件来处理 CSS，可以自动添加前缀、变量等，从而实现隔离。例如，PostCSS 前缀插件可以自动为 CSS 类添加唯一的前缀。
+
+各种方法有各自的优点和限制，选择哪种方法取决于项目的技术栈、团队的熟悉程度以及特定的项目需求。
+
+### vue 中 Scoped Styles 是如何实现样式隔离的
+
+Scoped Styles 的工作原理：
+当你为 `<style>` 标签添加 scoped 属性时，Vue 的加载器（比如 vue-loader）会处理你的组件文件。
+
+vue-loader 使用 PostCSS 来处理 scoped 的 CSS。它为组件模板内的每个元素添加一个独特的属性（如 data-v-f3f3eg9）。这个属性是随机生成的，确保唯一性（是在 Vue 项目构建过程中的 hash 值）。
+
+同时，所有的 CSS 规则都会被更新，以仅匹配带有相应属性选择器的元素。例如：如果你有一个 .button 类的样式规则，它会被转换成类似 .button[data-v-f3f3eg9] 的形式。这确保了样式只会被应用到拥有对应属性的 DOM 元素上。
+
+### css 变量声明和使用
+
+声明 CSS 变量
+CSS 变量的声明总是以 -- 开头，跟随变量名。你可以在 CSS 的任何范围内声明变量，包括 :root（相当于 HTML 的根），这样所有样式规则都可以访问到。
+
+示例：
+
+```css
+:root {
+  --main-color: #3498db;
+  --padding: 8px;
+  --transition-speed: 0.3s;
+}
+```
+
+使用 CSS 变量
+在 CSS 中使用变量时，你需要使用 var() 函数，并在括号中提供变量名，可以包含在-- 前缀之后。
+
+示例：
+
+```css
+body {
+  background-color: var(--main-color);
+  padding: var(--padding);
+  transition: all var(--transition-speed) ease-in-out;
+}
+```
+
+### less 函数如何用
+
+### flex 1 代表什么
+
+在 CSS 的弹性盒模型（Flexbox）中，flex: 1 表示子项（flex 子项）的伸缩性。
+
+具体来说，flex: 1 是 flex-grow、flex-shrink 和 flex-basis 三个属性的简写。其默认值等同于 flex: 1 1 0%，分别代表以下含义：
+
+- flex-grow: 1：定义项目的放大比例为 1。这意味着当弹性容器有剩余空间时，该子项将按照比例伸展以填充剩余空间。如果存在多个`  flex-grow: 1` 的子项，它们将等分剩余空间。
+- flex-shrink: 1：定义项目的缩小比例为 1。即如果空间不足，该项目将缩小。
+- flex-basis: 0%：在分配多余空间之前，计算项目是否有多余空间，这里的 0%表示不考虑项目本身的大小。
+  flex: 1 经常用于自适应布局。例如，将父容器的 display 设置为 flex，侧边栏大小固定后，将内容区设置为 flex: 1，内容区则会自动放大占满剩余空间。
+
+### css 实现翻牌效果
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      .card {
+        display: flex;
+      }
+
+      .flip-card {
+        float: left;
+        position: relative;
+        height: 36vmin;
+        width: calc(40vmin / 1.4);
+        background-color: white;
+        padding: 20px;
+        border-radius: calc(40vmin / 20);
+        box-shadow: 0 calc(40vmin / 40) calc(40vmin / 10) 0 rgba(0, 0, 0, 0.6);
+        overflow: hidden;
+        transition: transform 200ms linear, box-shadow 200ms linear,
+          background-color 200ms linear;
+        transform: rotateY(0deg);
+      }
+
+      .label:hover .flip-card {
+        transform: rotateY(180deg);
+        background-color: black;
+        transition: transform 200ms linear, box-shadow 200ms linear,
+          background-color 200ms linear;
+      }
+
+      .label:hover .flip-front {
+        opacity: 0;
+        display: none;
+        transition: transform 200ms linear, box-shadow 200ms linear,
+          background-color 200ms linear;
+      }
+
+      .label:hover .flip-end {
+        opacity: 1;
+        display: block;
+        transform: rotateY(180deg);
+        color: white;
+        font-size: 20px;
+        transition: transform 200ms linear, box-shadow 200ms linear,
+          background-color 200ms linear;
+      }
+
+      .flip-front {
+        width: 100%;
+        height: 100%;
+        opacity: 1;
+        cursor: pointer;
+      }
+
+      .flip-end {
+        width: 100%;
+        height: 100%;
+        opacity: 0;
+        display: none;
+        cursor: pointer;
+      }
+
+      .label {
+        background-color: white;
+        border-radius: calc(40vmin / 20);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <div class="label">
+        <div class="flip-card">
+          <div class="flip-front">我是正面</div>
+          <div class="flip-end">
+            在上述代码中，我们创建了一个带有 card 类的容器，内部有一个
+            card-inner 元素，它包含了 card-front（正面）和
+            card-back（背面）两个元素。 当鼠标悬停在 card 元素上时，通过 :hover
+            选择器将 card-inner 元素绕 Y 轴旋转 180 度，实现翻牌效果。
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+```
+
+### css 实现打字机效果
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      .typewriter {
+        width: 300px;
+        border-right: 4px solid black;
+        animation: typing 4s steps(30), blink 0.5s step-end infinite;
+        white-space: nowrap;
+        overflow: hidden;
+      }
+
+      @keyframes typing {
+        from {
+          width: 0;
+        }
+        to {
+          width: 300px;
+        }
+      }
+
+      @keyframes blink {
+        50% {
+          border-color: transparent;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <p class="typewriter">这是一个打字机效果的文本</p>
+  </body>
+</html>
+```
+
+### px 如何转为 rem
+
+px（像素）转换为 rem（根元素字体大小的相对单位）需要先确定一个基准的根元素字体大小。
+
+通常，我们将根元素（`<html>`）的字体大小设置为一个特定的值，比如 16px（这是常见的默认值，但您可以根据设计需求进行修改）。
+
+假设根元素的字体大小为 16px，那么转换公式为：rem 值 = px 值 / 16 。
+
+例如，如果有一个元素的宽度为 100px，转换为 rem 就是：100 / 16 = 6.25rem 。
+
+在实际开发中，可以使用预处理器（如 Sass、Less）或者 JavaScript 来实现自动转换
+可有什么办法让 px 自动转为 rem， 在开发中就直接使用 px
+
+在前端开发中，要实现输入 px 但自动转换为 rem ，可以通过以下几种方式：
+
+使用 CSS 预处理器（如 Sass、Less）
+
+```css
+/* Sass： */
+@function pxToRem($pxValue) {
+  @return $pxValue / 16 + rem;
+}
+
+.element {
+  width: pxToRem(100);
+}
+/* Less： */
+.pxToRem(@pxValue) {
+  @remValue: @pxValue / 16;
+  @return @remValue + rem;
+}
+
+.element {
+  width: pxToRem(100);
+}
+```
+
+使用构建工具（如 Webpack）的插件
+
+例如 postcss-pxtorem 插件，它可以在构建过程中自动将 px 转换为 rem 。您需要在配置中设置根元素的字体大小等相关参数。
+自己编写脚本进行转换
+
+可以在开发过程中使用 JavaScript 脚本来处理样式表中的 px 值，并将其转换为 rem 。但这种方式相对复杂，并且可能会影响开发效率。
+
+### 盒子模型
+
+box-sizeing: content-box 表示标准盒模型
+
+盒子在网页中实际占用:
+宽 = width + padding2 + border2 + margin2
+高 = height + padding2 + border2 + margin2
+
+盒模型实际大小:
+宽 = width + padding2 + border2
+高 = height + padding2 + border2
+
+box-sizeing: border-box 表示 IE 盒模型
+盒子在网页中实际占用:
+宽 = width + margin2
+高 = height + margin2
+
+盒模型实际大小:
+宽 = width
+高 = height
+
+### 内联加载样式和外联加载样式有啥区别
+
+内联样式
+定义方式：通过元素的 style 属性直接在 HTML 标签内定义 CSS 样式。
+优先级：内联样式的优先级高于外联样式和嵌入样式（在`<head>`标签内的`<style>`标签中定义的样式），因为它是直接应用到元素上的。
+应用场景：适合对单个元素进行样式定义，或者进行快速测试。但如果用于大量元素的样式定义，会使 HTML 文档变得非常臃肿，难以维护。
+示例：
+
+`<div style="color: blue; font-size: 14px;">这是一段内联样式的文本。</div>`
+外联样式
+定义方式：将 CSS 样式定义在一个外部的.css 文件中，然后通过`<link>`标签在 HTML 的`<head>`中引用。
+优先级：一般情况下，外联样式的优先级低于内联样式。但在多个样式之间的优先级还取决于选择器的具体性、样式定义的顺序等因素。
+应用场景：适合网站或应用的全局样式定义，能够实现样式的复用和统一管理，便于维护和更新。
+示例：
+
+```css
+<!--
+  HTML文件中引用
+  --
+  > <link
+  rel="stylesheet"
+  href="style.css"
+  /
+  > /_
+  style.css
+  文件中定义样式
+  _/
+  div {
+  color: red;
+  font-size: 16px;
+}
+```
+
+加载方式：内联样式直接写在 HTML 元素的 style 属性中，而外联样式则放在单独的 CSS 文件中，通过`<link>`标签引入。
+复用性：外联样式可以被多个 HTML 页面共享，提高了样式的复用性；内联样式只作用于具体的元素，无法复用。
+维护性：外联样式易于维护和更新，只需修改一个 CSS 文件即可影响引用该 CSS 文件的所有页面；内联样式则需要逐个元素修改，维护成本较高。
+优先级：内联样式的优先级高于外联样式和嵌入式样式，因为它更“接近”元素。
+性能影响：外联样式可利用浏览器缓存，有助于减少页面加载时间；而大量使用内联样式会增加 HTML 文档的大小，可能对性能产生不利影响。
+
+### flex 布局中子元素不压缩
+
+```css
+.flex-container {
+  display: flex;
+  /* 添加其他需要的flex布局属性 */
+}
+
+.flex-item {
+  flex-shrink: 0; /* 这使得该flex项目不会被压缩 */
+  /* 设置宽度或其他样式 */
+}
+```
+
+### position sticky
+
+特性
+
+- 吸顶效果：最常见的用途之一是导航栏吸顶。当用户向下滚动页面时，导航栏到达视口顶部后就会固定在那里，直到用户向上滚动至原始位置。
+- 滚动容器：sticky 元素将相对于离其最近的拥有滚动机制（例如，overflow: auto; 或 overflow: scroll;）的祖先元素进行定位。
