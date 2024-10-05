@@ -1,0 +1,558 @@
+### BFC
+
+BFC （block formatting context） 及块级格式化上下文，从样式上看，具有 BFC 的元素与普通的容器没有什么区别，从功能上看，BFC 相当于构建了一个密闭的盒子模型，在 BFC 中的元素不受外部元素的影响。
+
+创建 BFC 的场景：
+
+- 根元素或其它包含它的元素 (也就是 html 元素本身就是 BFC)
+- float:left , right
+- position:absolute,fixed
+- display:inline-block,table-cell,table-caption;(行内块元素与表格元素)
+- overflow：hidden，auto，scroll （非 visible 属性）
+- display: flow-root （该元素生成一个块级元素盒，其会建立一个新的区块格式化上下文，定义格式化上下文的根元素）
+
+BFC 的作用：
+
+1. 清除浮动，解决浮动元素高度塌陷的问题
+2. 解决浮动元素重叠的问题
+3. 解决边据重叠问题
+
+- 父子元素边距重叠
+- 兄弟元素边据重叠
+
+### 水平垂直居中
+
+```css
+/* case1 绝对定位 + margin偏移 */
+.container {
+  position: relative;
+}
+
+.center {
+  width: 200px;
+  height: 200px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-top: -100px;
+  margin-left: -100px;
+}
+
+/* case2 当被居中的元素是inline或者inline-block元素 */
+.container {
+  display: table-cell;
+  text-align: center;
+  vertical-align: middle;
+}
+.center {
+}
+
+/* case3 绝对定位 + transform偏移 */
+.container {
+  position: relative;
+}
+
+.center {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%); /* 这个方法更常用，自身的宽高可以是未知的 */
+}
+
+/* case4 使用 transform */
+.container {
+  position: relative;
+}
+.center {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/* case5 使用flex */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.center {
+}
+
+/* case6 使用grid  */
+/* place-items 属性。用于同时设置 justify-items 和 align-items。 */
+.container {
+  display: grid;
+  place-items: center; /* 水平和垂直居中 */
+}
+/* 使用 align-items 和 justify-items */
+.container {
+  display: grid;
+  justify-items: center; /* 水平居中 */
+  align-items: center; /* 垂直居中 */
+}
+/* 使用 grid-template-rows 和 grid-template-columns */
+.container {
+  display: grid;
+  grid-template-rows: 1fr; /* 占据剩余空间 */
+  grid-template-columns: 1fr; /* 占据剩余空间 */
+}
+
+.child {
+  margin: auto; /* 自动边距使子元素居中 */
+}
+/* 使用 grid-template-areas */
+.container {
+  display: grid;
+  grid-template-areas: "center";
+  justify-content: center; /* 水平居中 */
+  align-content: center; /* 垂直居中 */
+}
+
+.center {
+  grid-area: center;
+}
+```
+
+### 清除浮动
+
+```css
+/* 父级div定义 伪类:after */
+<style>
+  .float {
+    float: left;
+  }
+    /*清除浮动代码*/
+  .clearfix:after {
+   content: "";
+   display: block;
+   clear: both;
+  }
+</style>
+<div class="clearfix">
+  <div class="float">
+  </div>
+</div>
+```
+
+原理：利用伪元素（:after）插入一个不可见的内容到浮动元素的父容器内，这个内容会占据一行的空间，从而触发 BFC（Block Formatting Context）规则，使得该行之后的内容能够正确地排布在这一行之下，而不会与浮动元素重叠。可以定义公共类，以减少 CSS 代码。
+
+### 隐藏元素的方式及区别
+
+有多种方法可以隐藏元素的 CSS。
+
+```css
+display: none;：将元素完全隐藏，不占据任何空间。
+visibility: hidden;：将元素隐藏，但仍占据空间。
+opacity: 0;：将元素透明化，但仍占据空间。
+position: absolute; left: -9999px;：将元素定位到屏幕外部，不显示在可见区域。
+height: 0; width: 0; overflow: hidden;：将元素高度和宽度设为0，同时隐藏溢出内容。
+clip-path: polygon(0 0, 0 0, 0 0);：使用剪切路径将元素隐藏。
+```
+
+`display: none;` 、`visibility: hidden;` 和 `opacity: 0` 都可以使元素不可见。
+
+核心点在于 `display: none` 的 `DOM` 元素在布局阶段中会被擦除（即布局树上不存在对应节点）。
+
+**区别：**
+
+**结构上：**
+
+`display: none` ：布局树中不存在对应节点，因此不占布局空间，而且不能点击。
+
+`visibility: hidden`：布局树中存在对应节点，因此占据布局空间，但是不能点击。
+
+`opacity: 0`：布局树中存在对应节点，因此占空间，而且能响应点击事件。
+
+**继承上：**
+
+`display: none` ：作用于父元素后，子元素也不会被渲染（即使给子元素加了 display: block）
+
+`visibility: hidden`：作用于父元素后，子元素继承这个属性，也不可见；不过可以给子元素设置 visibility: visible 使其可见。
+
+`opacity: 0`：作用于父元素后，虽然子元素不会继承这个属性，但是子元素的透明度也会被影响，所以也不可见；而且不能通过给子元素设置 opacity: 1 使其变成不透明。
+
+**性能上：**
+
+`display: none`：会造成回流/重绘，性能影响大
+
+`visibility: hidden`：会造成元素内部的重绘，性能影响相对小
+
+`opacity: 0`：由于 opacity 属性启用了 GPU 加速，性能最好
+
+**使用场景：**
+
+`opacity: 0`：适用于需要实现淡出效果的场景，比如弹出层的显示和隐藏。
+
+`visibility: hidden`：适用于需要占据原来空间的元素，但不需要显示的场景，比如菜单的展开和收起。
+
+`display: none`：适用于需要完全隐藏元素的场景，比如实现一个开关，点击开关后可以隐藏或者显示某个元素。
+
+其他：
+读屏器不会读取`display: none;`元素内容；会读取`visibility: hidden;`元素内容
+
+> `opacity` 是不继承属性，父元素设置 `opacity`，子元素并不会继承。但是因为该属性的特殊性（类似 `background`），父元素有了透明度，子元素的样式也会被影响。如果父元素设置 `opacity: 0.5`，子元素设置 `opacity: 0.5`，那么实际上子元素的透明度是 `0.5 \* 0.5 = 0.25`。
+
+> 如果希望子元素不被父元素的透明度影响，我们可以使用 `background: rgba` 代替 `opacity: 0`
+
+### 块级元素和行内元素的区别
+
+block 元素有：`<article>, <aside>, <audio>, <blockquote>, <canvas>, <dd>, <details>, <dialog>, <div>, <dl>, <dt>, <fieldset>, <figcaption>, <figure>, <footer>, <form>, <h1>-<h6>, <header>, <iframe>, <li>, <main>, <nav>, <noscript>, <ol>, <p>, <pre>, <section>, <table>, <tbody>, <tfoot>, <thead>, <ul>`。
+
+block 元素特点：
+
+1. 处于常规流中时，如果 width 没有设置，会自动填充满父容器
+2. 可以应用 margin/padding
+3. 在没有设置高度的情况下会扩展高度以包含常规流中的子元素
+4. 处于常规流中时布局时在前后元素位置之间（独占一个水平空间）
+5. 忽略 vertical-align
+
+inline 元素有：`<a>, <abbr>, <b>, <bdi>, <bdo>, <br>, <cite>, <dfn>, <em>, <i>, <img>, <input>, <kbd>, <label>, <q>, <ruby>, <rt>, <s>, <samp>, <small>, <span>, <strong>, <sub>, <sup>, <time>, <u>, <var>, <wbr>`。
+
+inline 元素特点
+
+1. 水平方向上根据 direction 依次布局
+2. 不会在元素前后进行换行
+3. 受 white-space 控制
+4. margin/padding 在竖直方向上无效，水平方向上有效
+5. width/height 属性对非替换行内元素无效，宽度由元素内容决定
+6. 非替换行内元素的行框高由 line-height 确定，替换行内元素的行框高由 height,margin,padding,border 决定
+7. 浮动或绝对定位时会转换为 block
+8. vertical-align 属性生
+
+### flex 布局
+
+[阮一峰 flex 布局](https://www.ruanyifeng.com/blog/2015/07/flex-grammar.html)
+flex 容器属性
+
+```css
+.flex-container {
+  display: flex;
+  flex-direction: row;
+  /* 主轴的方向，默认row，从左往右 */
+  flex-wrap: nowrap;
+  /* 是否换行，默认不换行*/
+  justify-content: center;
+  /* 主轴上的布局，默认flex-start */
+  align-items: center;
+  /* 交叉轴上的布局，默认值flex-start */
+  align-content: center;
+  /* 多条轴线的布局 */
+}
+```
+
+flex 子元素属性
+
+```css
+.flex-items {
+  order: 2;
+  /* 项目的order， 越大的越后面*/
+  flex-grow: 1;
+  /* 扩张比例，默认0，不占剩余空间 */
+  flex-shrink: 0;
+  /* 缩小比例，默认1，自动缩小*/
+  flex-basis: 200px;
+  /* 主轴上的宽度 */
+  flex: 1 0 200px;
+  /* 上面三条的缩写 */
+  align-self: flex-end;
+  /* 修改项目的交叉轴布局*/
+}
+```
+
+### 样式优先级
+
+1. 标签选择器：如`div`
+2. ID 选择器：如`#root`
+3. class 选择器：如`.container`
+4. 子代选择器（即父子关系）：，如`div > p`
+5. 后代选择器 （即可以是爷爷和孙子的关系）：如`div p`
+6. 相邻兄弟选择器：如`div + p`， 选择紧邻着 div 后面的 p
+7. 属性选择器：如`input[type=input]`
+8. 伪类选择器：如`:hover`、`:first-child`、`:nth-child()`、`:first-of-type`、
+9. 通配符选择器：`*`
+
+在 HTML 渲染管线的样式计算环节中会计算出 DOM 节点最终的样式属性，具体的优先级如下：：`!important` > `inline selector` > `id selector` > `class selector` > `tag selector` > `*` > 浏览器默认样式 > 继承样式。这里的继承样式指的是部分样式如`font-size`、`color`、`visibility`是会继承给子节点的。
+
+### css 尺寸单位
+
+1. 像素（Pixel，缩写为 px）：是最常用的单位，表示屏幕上的一个点，可以精确地指定元素的大小。
+2. 百分比（Percentage，缩写为%）：相对于父元素的大小，可以根据父元素的大小来设置子元素的大小。
+3. em：相对于当前元素的字体大小，用于设置字体大小时很常用。
+4. rem：相对于根元素（即 html 元素）的字体大小。
+5. vh/vw：相对于视口（Viewport）的高度和宽度。cm、mm、in、pt、pc 等长度单位：用于打印样式表，不建议在 Web 开发中使用。
+6. 自定义单位：可以通过 CSS 的 calc()函数自定义单位，比如使用“1fr”作为网格布局中的单位。
+
+需要注意的是，不同的浏览器可能会有不同的计算方式和默认值，因此在设置尺寸时需要进行充分的测试和兼容性处理。
+
+### 实现吸顶效果
+
+```css
+/* 1. 使用 `position: sticky` */
+.content {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+}
+```
+
+### 文档流
+
+CSS 的文档流（Document Flow）是指文档中元素按照其在 HTML 中出现的顺序自上而下布局的方式，也称为常规流（Normal Flow）或默认流。文档流定义了元素的布局顺序和定位方式，包括元素的位置、大小、间距等属性。
+
+在文档流中，每个元素都会占据一定的空间并尽可能充满其包含块的宽度。每个元素的位置都会受到前面元素的影响，如果前面的元素发生位置变化，那么后面的元素的位置也会发生相应的变化。
+
+文档流中的元素按照下面的规则排列：
+
+块级元素：块级元素会独占一行，并在前面自动添加一个垂直间距。例如：`<p>、<div>、<h1>` 等。
+
+行内元素：行内元素会在一行中排列，并且宽度根据内容自适应。例如：`<a>、<span>、<img>` 等。
+
+行内块级元素：行内块级元素与行内元素类似，但是它可以设置宽度、高度等块级元素的属性。例如：`<input>、<button>、<textarea> `等。
+
+文档流是 CSS 中最基本、最重要的概念之一，它决定了网页的整体布局和排版方式。
+
+### position 常用属性
+
+`CSS` 中 `position` 属性用于指定元素的定位方式，它有以下常见的属性值：
+
+`static`：默认值，元素在文档流中正常排列。
+
+`relative`：元素在文档流中正常排列，但是可以通过设置 `top`、`right`、`bottom`、`left` 属性相对于其正常位置进行偏移，不会影响其它元素的位置。
+
+`absolute`：元素脱离文档流，相对于最近的非 `static` 定位的祖先元素进行定位，如果没有则相对于 `<html>` 元素进行定位。通过设置 `top`、`right`、`bottom`、`left` 属性进行偏移，如果祖先元素发生位置变化，则元素的位置也会发生相应的变化。
+
+`fixed`：元素脱离文档流，相对于浏览器窗口进行定位，始终保持在窗口的固定位置，不会随页面滚动而滚动。通过设置 `top`、`right`、`bottom`、`left` 属性进行偏移。
+
+`sticky`：元素在文档流中正常排列，当元素滚动到指定的位置时，停止滚动并固定在该位置，直到其祖先元素发生滚动时才会取消固定。通过设置 `top`、`right`、`bottom`、`left` 属性和 `z-index` 属性进行设置。
+
+### BFC、IFC、GFC 和 FFC
+
+**BFC（Block Formatting Contexts）块级格式化上下文。**
+
+BFC 布局规则
+
+1. 内部的 Box 会在垂直方向，一个接一个地放置。
+2. Box 垂直方向的距离由 margin 决定。属于同一个 BFC 的两个相邻 Box 的 margin 会发生重叠。
+3. 每个元素的 margin box 的左边， 与包含块 border box 的左边相接触(对于从左往右的格式化，否则相反)。即使存在浮动也是如此。
+4. BFC 的区域不会与 float box 重叠。
+5. BFC 就是页面上的一个隔离的独立容器，容器里面的子元素不会影响到外面的元素。反之也如此。
+6. 计算 BFC 的高度时，浮动元素也参与计算
+
+**IFC 全称：Inline Formatting Context，名为行级格式化上下文**
+
+IFC 布局规则
+
+1. 在一个 IFC 内，子元素是水平方向横向排列的，并且垂直方向起点为元素顶部。
+2. 子元素只会计算横向样式空间，【padding、border、margin】，垂直方向样式空间不会被计算，【padding、border、margin】。
+3. 在垂直方向上，子元素会以不同形式来对齐（vertical-align）
+4. 能把在一行上的框都完全包含进去的一个矩形区域，被称为该行的行框（line box）。行框的宽度是由包含块（containing box）和与其中的浮动来决定。
+5. IFC 中的 line box 一般左右边贴紧其包含块，但 float 元素会优先排列。
+6. IFC 中的 line box 高度由 CSS 行高计算规则来确定，同个 IFC 下的多个 line box 高度可能会不同。
+7. 当 inline boxes 的总宽度少于包含它们的 line box 时，其水平渲染规则由 text-align 属性值来决定。
+8. 当一个 inline box 超过父元素的宽度时，它会被分割成多个 boxes，这些 boxes 分布在多个 line box 中。如果子元素未设置强制换行的情况下，inline box 将不可被分割，将会溢出父元素。
+
+**GFC（Grid Formatting Contexts）栅格格式化上下文**
+GFC 布局规则
+通过在网格容器（grid container）上定义网格定义行（grid definition rows）和网格定义列（grid definition columns）属性各在网格项目（grid item）上定义网格行（grid row）和网格列（grid columns）为每一个网格项目（grid item）定义位置和空间（具体可以在 MDN 上查看）
+
+**FFC（Flex Formatting Contexts）弹性格式化上下文**
+FFC 布局规则
+
+1. 设置为 flex 的容器被渲染为一个块级元素
+2. 设置为 inline-flex 的容器被渲染为一个行内元素
+3. 弹性容器中的每一个子元素都是一个弹性项目。弹性项目可以是任意数量的。弹性容器外和弹性项目内的一切元素都不受影响。简单地说，Flexbox 定义了弹性容器内弹性项目该如何布局
+
+### grid 布局
+
+CSS Grid 布局是 CSS 中的一种新的布局系统，旨在通过 网格（grid）和 行（row）、列（column）的概念来创建灵活的、高效的、响应式网页布局。CSS Grid 布局可以将一个元素的内容划分为多个网格，根据需要，可以在这些网格中定位元素。
+
+CSS Grid 布局用于实现网格布局，以下是常用的几个属性：
+
+```css
+display: grid;：设置一个元素为网格容器
+grid-template-columns：定义网格中每一列的大小和数量
+grid-template-rows：定义网格中每一行的大小和数量
+grid-template-areas：为网格中的区域命名，以便将子元素分配到特定的区域
+grid-column-gap 和 grid-row-gap：定义网格中行和列之间的间距
+grid-area：定义元素应该在网格中的哪个区域，比如指定其所在的行、列和跨越的行列数量
+grid-column-start 和 grid-column-end：定义元素开始和结束的列位置，类似地，grid-row-start 和 grid-row-end 定义元素开始和结束的行位置
+grid-column 和 grid-row：简写属性，组合了 grid-column-start 、grid-column-end 、grid-row-start 和 grid-row-end，用于同时设置元素在网格中的列和行位置。
+```
+
+### css 伪类和伪元素
+
+伪类是对元素在特定状态下的一种描述。
+例如：
+
+```css
+:hover，鼠标移动到元素上时产生的效果。
+
+:active，鼠标按下去但没有释放时的状态。
+
+:focus，元素获取焦点时的状态。
+
+:visited，链接被点击并访问过时的状态。
+
+:nth-child(n)，选中元素的第 n 个 child 元素。
+
+:first-child，选中第一个 child 元素。
+
+:last-child，选中最后一个 child 元素。
+```
+
+伪元素是对元素局部样式的描述，允许我们对某个元素的特定部分进行样式设置。
+
+```css
+::before，在元素内容前插入内容。
+
+::after，在元素内容后插入内容。
+
+::first-letter，选择元素的第一个字母。
+
+::first-line，选择元素的第一行。
+
+::selection，选择用户选中文本的部分。
+```
+
+区别与使用：
+
+伪类的作用是改变元素在特定状态下的样式，而伪元素则充当一个元素的某一部分来做样式处理。
+由于伪元素技术强大，可以为元素添加完全独立的内容而无需改变 HTML，因此在一些需要前端动态处理或给传统 HTML 元素嵌入样式的情况下，往往会用到伪元素技术。比如用 ::before 和 ::after 实现类似插画的效果。
+伪类和伪元素在实际应用中搭配使用，可以产生更复杂和丰富的样式效果。因此在大量的开发工程中，两者的灵活应用至关重要。
+
+### 如何防止 css 阻塞渲染
+
+场景： 当浏览器遇到`link`标签会停止解析`html`去单独请求样式表文件，当样式文件很大或者网络速度很慢，它将阻止页面的渲染。
+
+一些方法可以防止或减轻 CSS 阻塞渲染：
+
+1. 内联样式：使用内联样式而不是外部样式表，将样式放在页面的顶部，这样 HTML 就能很快地被渲染出来。
+2. 通过媒体查询加载符合指定媒体类型或条件的样式表。这样不会影响未满足条件的设备或屏幕渲染结果。
+3. 使用 rel="preload" 或者 rel="prefetch" 预加载样式表，这有助于在页面渲染过程中尽早加载样式表，提高页面加载速度。
+4. 通过使用 JavaScript 动态加载样式表，可以实现延迟加载和异步加载。这可以帮助查看者能够看到尽快的内容，然后在不影响查看体验的前提下加载样式表。
+5. 考虑压缩和优化您的 CSS 文件，以使代码更加紧凑、加载更快。
+6. 对已经被加载的字体和图片，使用 CSS Sprites 技术合并到一个文件或者减少 HTTP 请求数量。
+
+### 画三角形
+
+<div
+  style={{
+    width: 0,
+    height: 0,
+    borderLeft: "50px solid transparent",
+    borderRight: "50px solid transparent",
+    borderBottom: "100px solid red",
+  }}
+></div>
+
+```css
+/* 使用边框 */
+.triangle {
+  width: 0;
+  height: 0;
+  border-left: 50px solid transparent;
+  border-right: 50px solid transparent;
+  border-bottom: 100px solid red;
+}
+
+/* 使用伪元素 */
+.triangle {
+  position: relative;
+  width: 100px;
+  height: 100px;
+}
+.triangle:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-width: 0 100px 100px 0;
+  border-style: solid;
+  border-color: red;
+}
+
+/* 使用旋转 */
+.triangle {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+  transform: rotate(45deg);
+}
+```
+
+### css3 新特性
+
+CSS3 引入了许多新特性和模块，以下是一些常见的 CSS3 新特性：
+
+1. 选择器增强：
+
+属性选择器：支持更多的属性选择器，如属性值前缀、后缀、包含等。
+伪类选择器：引入了新的伪类选择器，如:nth-child()、:nth-of-type()等。
+
+2. 盒子模型：
+
+边框圆角（border-radius）：可以设置元素的边框圆角。
+阴影效果（box-shadow）：可以为元素添加阴影效果。
+盒子大小（box-sizing）：可以调整盒子模型的尺寸计算方式。
+
+3. 背景和渐变：
+
+线性渐变（linear-gradient）：可以创建水平或垂直方向的渐变背景。
+径向渐变（radial-gradient）：可以创建从一个中心点向外扩散的渐变背景。
+
+4. 文字和字体：
+
+@font-face：允许在网页中引用自定义字体文件。
+文字阴影（text-shadow）：可以为文字添加阴影效果。
+多列文字（columns）：可以创建多列布局的文字。
+
+5. 过渡和动画：
+
+过渡效果（transition）：可以实现元素在不同状态之间的平滑过渡。
+关键帧动画（@Keyframes）：可以定义动画的关键帧和动画效果。
+动画属性（animation）：用于指定动画的持续时间、重复次数等属性。
+
+6. 弹性布局（Flexbox）：
+
+引入了弹性布局模型，使元素在容器中的布局更加灵活和自适应。
+
+7. 响应式布局（Media Queries）：
+
+可以根据不同的媒体查询条件应用不同的样式，实现响应式布局。
+
+8. 变换和变形：
+
+2D 变换（transform）：可以对元素进行平移、旋转、缩放等变换操作。
+3D 变换（transform）：可以实现元素的三维空间变换效果。
+
+9. 过滤器（Filter）：
+
+可以应用各种视觉效果和图像处理效果，如模糊、亮度、对比度等。
+
+10. 多列布局（Multicolumn Layout）：
+
+可以将内容分为多列进行布局。
+
+### postCss
+
+[postcss github](https://github.com/postcss/postcss)
+[官网](https://postcss.org/)
+PostCSS 是一个用 JavaScript 编写的工具，用于对 CSS 进行转换和处理。它可以通过插件机制对 CSS 进行各种自定义的转换操作，从而扩展 CSS 的功能和语法。
+
+PostCSS 的作用主要有以下几个方面：
+
+1. CSS 预处理器：PostCSS 可以像 Sass 或 Less 一样用于编写更简洁、可维护的 CSS 代码。通过使用类似于变量、嵌套、Mixin 等功能，可以提高 CSS 开发的效率和灵活性。
+
+2. 自动添加浏览器前缀：PostCSS 可以根据配置自动为 CSS 属性添加适应不同浏览器的前缀，解决浏览器兼容性问题。
+
+3. CSS 模块化：PostCSS 可以使用类似于 CSS Modules 的功能，将 CSS 代码分割为独立的模块，避免样式冲突，提供更好的可维护性和代码复用性。
+
+4. 代码优化和压缩：PostCSS 提供了一些插件，可以对 CSS 代码进行优化和压缩，减小文件大小，提高加载性能。
+
+5. 编写自定义插件：PostCSS 的插件机制非常灵活，可以根据项目需求编写自定义的插件，进行各种 CSS 转换和处理操作，如自定义属性、自定义函数等。
+
+可以用于增强 CSS 的能力，并提供更好的开发体验和效果优化。
