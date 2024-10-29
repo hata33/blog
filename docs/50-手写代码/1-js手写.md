@@ -47,7 +47,7 @@ array.forEach((item) => {
 ```js
 const flat = (array) => {
   let result = [];
-  for (let i = i; i < array.length; i++) {
+  for (let i = 0; i < array.length; i++) {
     if (Array.isArray(array[i])) {
       result = [...result, ...flat(array[i])];
     } else {
