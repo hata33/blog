@@ -1,3 +1,12 @@
+import BFCDemo from '@site/src/components/css/BFCDemo';
+import CenterDemo from '@site/src/components/css/CenterDemo';
+import ClearfixDemo from '@site/src/components/css/ClearfixDemo';
+import HideDemo from '@site/src/components/css/HideDemo';
+import FlexDemo from '@site/src/components/css/FlexDemo';
+import GridDemo from '@site/src/components/css/GridDemo';
+import FlipCardDemo from '@site/src/components/css/FlipCardDemo';
+import TypewriterDemo from '@site/src/components/css/TypewriterDemo';
+
 ### BFC
 
 BFC （block formatting context） 及块级格式化上下文，从样式上看，具有 BFC 的元素与普通的容器没有什么区别，从功能上看，BFC 相当于构建了一个密闭的盒子模型，在 BFC 中的元素不受外部元素的影响。
@@ -19,6 +28,8 @@ BFC 的作用：
 
 - 父子元素边距重叠
 - 兄弟元素边据重叠
+
+<BFCDemo />
 
 ### 水平垂直居中
 
@@ -117,6 +128,8 @@ BFC 的作用：
 }
 ```
 
+<CenterDemo />
+
 ### 清除浮动
 
 ```css
@@ -138,7 +151,7 @@ BFC 的作用：
 </div>
 ```
 
-原理：利用伪元素（:after）插入一个不可见的内容到浮动元素的父容器内，这个内容会占据一行的空间，从而触发 BFC（Block Formatting Context）规则，使得该行之后的内容能够正确地排布在这一行之下，而不会与浮动元素重叠。可以定义公共类，以减少 CSS 代码。
+<ClearfixDemo />
 
 ### 隐藏元素的方式及区别
 
@@ -197,6 +210,8 @@ clip-path: polygon(0 0, 0 0, 0 0);：使用剪切路径将元素隐藏。
 > `opacity` 是不继承属性，父元素设置 `opacity`，子元素并不会继承。但是因为该属性的特殊性（类似 `background`），父元素有了透明度，子元素的样式也会被影响。如果父元素设置 `opacity: 0.5`，子元素设置 `opacity: 0.5`，那么实际上子元素的透明度是 `0.5 \* 0.5 = 0.25`。
 
 > 如果希望子元素不被父元素的透明度影响，我们可以使用 `background: rgba` 代替 `opacity: 0`
+
+<HideDemo />
 
 ### 块级元素和行内元素的区别
 
@@ -263,6 +278,8 @@ flex 子元素属性
 }
 ```
 
+<FlexDemo />
+
 ### 样式优先级
 
 1. 标签选择器：如`div`
@@ -284,7 +301,7 @@ flex 子元素属性
 3. em：相对于当前元素的字体大小，用于设置字体大小时很常用。
 4. rem：相对于根元素（即 html 元素）的字体大小。
 5. vh/vw：相对于视口（Viewport）的高度和宽度。cm、mm、in、pt、pc 等长度单位：用于打印样式表，不建议在 Web 开发中使用。
-6. 自定义单位：可以通过 CSS 的 calc()函数自定义单位，比如使用“1fr”作为网格布局中的单位。
+6. 自定义单位：可以通过 CSS 的 calc()函数自定义单位，比如使用"1fr"作为网格布局中的单位。
 
 需要注意的是，不同的浏览器可能会有不同的计算方式和默认值，因此在设置尺寸时需要进行充分的测试和兼容性处理。
 
@@ -382,6 +399,8 @@ grid-area：定义元素应该在网格中的哪个区域，比如指定其所�
 grid-column-start 和 grid-column-end：定义元素开始和结束的列位置，类似地，grid-row-start 和 grid-row-end 定义元素开始和结束的行位置
 grid-column 和 grid-row：简写属性，组合了 grid-column-start 、grid-column-end 、grid-row-start 和 grid-row-end，用于同时设置元素在网格中的列和行位置。
 ```
+
+<GridDemo />
 
 ### css 伪类和伪元素
 
@@ -577,7 +596,7 @@ CSS 的渲染优先级遵循以下规则：
 
 2. 使用 CSS-in-JS：使用 CSS-in-JS 技术，将样式直接与组件绑定，可以避免全局样式的冲突。每个组件都有自己的样式定义，不会影响其他组件。
 
-3. 使用 CSS Modules：CSS Modules 是一种 CSS 模块化的解决方案，它通过将 CSS 文件与组件绑定，在构建过程中自动生成唯一的类名，从而实现样式的局部作用域。这样可以避免全局样式冲突。
+3. 使用 CSS Modules：CSS Modules 是一种 CSS 模块化的解决方案，它通过将 CSS 文件与组件绑定，生成唯一的类名，实现样式的局部作用域。这样可以避免全局样式冲突。
 
 4. 使用作用域限定符：使用 CSS 预处理器（如 Sass 或 Less）的作用域限定符（如父选择器 &）来限制样式的作用范围。通过嵌套样式规则，并使用作用域限定符，可以确保样式仅应用于特定的父元素。
 
@@ -916,6 +935,8 @@ body {
 </html>
 ```
 
+<FlipCardDemo />
+
 ### css 实现打字机效果
 
 ```html
@@ -953,6 +974,8 @@ body {
   </body>
 </html>
 ```
+
+<TypewriterDemo />
 
 ### px 如何转为 rem
 
@@ -1055,7 +1078,7 @@ box-sizeing: border-box 表示 IE 盒模型
 加载方式：内联样式直接写在 HTML 元素的 style 属性中，而外联样式则放在单独的 CSS 文件中，通过`<link>`标签引入。
 复用性：外联样式可以被多个 HTML 页面共享，提高了样式的复用性；内联样式只作用于具体的元素，无法复用。
 维护性：外联样式易于维护和更新，只需修改一个 CSS 文件即可影响引用该 CSS 文件的所有页面；内联样式则需要逐个元素修改，维护成本较高。
-优先级：内联样式的优先级高于外联样式和嵌入式样式，因为它更“接近”元素。
+优先级：内联样式的优先级高于外联样式和嵌入式样式，因为它更"接近"元素。
 性能影响：外联样式可利用浏览器缓存，有助于减少页面加载时间；而大量使用内联样式会增加 HTML 文档的大小，可能对性能产生不利影响。
 
 ### flex 布局中子元素不压缩
