@@ -1,0 +1,227 @@
+/* Transition Example */
+.transitionContainer {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.transitionBox {
+  width: 100px;
+  height: 100px;
+  background: #3498db;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.transitionBox:hover {
+  transform: scale(1.1) rotate(5deg);
+  background: #2980b9;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+/* Keyframe Animation Example */
+.keyframeContainer {
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  background: #f5f5f5;
+  border-radius: 8px;
+}
+
+.bouncingBall {
+  width: 50px;
+  height: 50px;
+  background: orange;
+  border-radius: 50%;
+  animation: bounce 0.5s cubic-bezier(0.36, 0, 0.66, -0.56) infinite alternate;
+}
+
+@keyframes bounce {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50px);
+  }
+}
+
+/* Transform Example */
+.transformContainer {
+  height: 150px;
+  perspective: 1000px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.transformBox {
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #9b59b6, #8e44ad);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.6s ease;
+  cursor: pointer;
+  border-radius: 4px;
+  text-align: center;
+  font-size: 14px;
+}
+
+.transformBox:hover {
+  transform: rotateY(180deg) scale(1.1);
+}
+
+/* Loading Animation */
+.loadingContainer {
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.loadingSpinner {
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Responsive Animation Example */
+.responsiveContainer {
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.responsiveCard {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.cardIcon {
+  width: 50px;
+  height: 50px;
+  background: linear-gradient(135deg, #00b4db, #0083b0);
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+/* 桌面端动画 */
+@media (min-width: 768px) {
+  .responsiveCard {
+    max-width: 400px;
+  }
+
+  .responsiveCard:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+  }
+
+  .cardIcon {
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(0,180,219,0.4);
+    }
+    70% {
+      transform: scale(1.1);
+      box-shadow: 0 0 0 10px rgba(0,180,219,0);
+    }
+    100% {
+      transform: scale(1);
+      box-shadow: 0 0 0 0 rgba(0,180,219,0);
+    }
+  }
+}
+
+/* 平板端动画 */
+@media (max-width: 768px) and (min-width: 480px) {
+  .responsiveCard {
+    max-width: 300px;
+  }
+
+  .responsiveCard:active {
+    transform: scale(0.98);
+  }
+
+  .cardIcon {
+    animation: rotate 3s linear infinite;
+  }
+
+  @keyframes rotate {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+}
+
+/* 移动端动画 */
+@media (max-width: 480px) {
+  .responsiveCard {
+    flex-direction: column;
+    text-align: center;
+    max-width: 250px;
+  }
+
+  .cardIcon {
+    animation: bounce 1s ease infinite;
+  }
+
+  @keyframes bounce {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}
+
+/* 减少动画模式 */
+@media (prefers-reduced-motion: reduce) {
+  .responsiveCard {
+    transition: none;
+  }
+
+  .responsiveCard:hover {
+    transform: none;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  }
+
+  .cardIcon {
+    animation: none;
+  }
+} 
