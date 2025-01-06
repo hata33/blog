@@ -19,6 +19,8 @@ function HomepageHeader() {
           {siteConfig.title}
         </Heading>
         <p className="hero__subtitle">{siteConfig.tagline}</p>
+        {/* @ts-ignore */}
+        <p className="hero__subtitle">{siteConfig.taglineCn}</p>
         <div className={styles.buttons}>
           <Link
             className="button button--secondary button--lg"
