@@ -2,10 +2,9 @@ import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
-const config: Config & { taglineCn: string } = {
+const config: Config= {
   title: "Hata's blog",
-  tagline: "The new storm has appeared, how can it stop?",
-  taglineCn: "新的风暴已经出现，怎么能够停止不前",
+  tagline: "The new storm has appeared, how can it stop?", 
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
