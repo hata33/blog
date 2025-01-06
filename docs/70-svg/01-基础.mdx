@@ -1,0 +1,130 @@
+import { 
+  RectExample, 
+  CircleExample, 
+  PathExample, 
+  GradientExample,
+  AnimationExample 
+} from './components/BasicShapes';
+
+# SVG 基础知识
+
+## 1. 基本形状
+
+### 矩形 (rect)
+
+<RectExample />
+
+```tsx
+<svg width="200" height="200">
+  <rect 
+    x="10" 
+    y="10" 
+    width="100" 
+    height="50"
+    rx="5" 
+    ry="5" 
+    fill="blue"
+    stroke="black"
+    stroke-width="2"
+  />
+</svg>
+```
+
+属性说明：
+- x, y: 矩形左上角的坐标
+- width, height: 矩形的宽度和高度
+- rx, ry: 圆角的水平和垂直半径
+- fill: 填充颜色
+- stroke: 边框颜色
+- stroke-width: 边框宽度
+
+### 圆形 (circle)
+
+<CircleExample />
+
+```tsx
+<svg width="200" height="200">
+  <circle 
+    cx="100" 
+    cy="100" 
+    r="50"
+    fill="red"
+    stroke="black"
+    stroke-width="2"
+  />
+</svg>
+```
+
+## 2. 路径 (path)
+
+<PathExample />
+
+```tsx
+<svg width="200" height="200">
+  <path 
+    d="M 10 10 L 90 90 L 90 10 Z"
+    fill="none"
+    stroke="black"
+    stroke-width="2"
+  />
+</svg>
+```
+
+路径命令：
+- M: 移动到 (Move to)
+- L: 画线到 (Line to)
+- H: 水平线到
+- V: 垂直线到
+- C: 三次贝塞尔曲线
+- S: 平滑三次贝塞尔曲线
+- Q: 二次贝塞尔曲线
+- T: 平滑二次贝塞尔曲线
+- A: 弧线
+- Z: 闭合路径
+
+## 3. 渐变效果
+
+<GradientExample />
+
+```tsx
+<svg width="200" height="200">
+  <defs>
+    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style={{ stopColor: 'rgb(255,0,0)', stopOpacity: 1 }} />
+      <stop offset="100%" style={{ stopColor: 'rgb(0,0,255)', stopOpacity: 1 }} />
+    </linearGradient>
+  </defs>
+  <rect 
+    x="10" 
+    y="10" 
+    width="180" 
+    height="180" 
+    fill="url(#gradient)"
+  />
+</svg>
+```
+
+## 4. 动画效果
+
+<AnimationExample />
+
+```tsx
+<svg width="200" height="200">
+  <circle cx="100" cy="100" r="50" fill="red">
+    <animate 
+      attributeName="r"
+      values="50;80;50"
+      dur="2s"
+      repeatCount="indefinite"
+    />
+  </circle>
+</svg>
+```
+
+动画属性：
+- attributeName: 要动画的属性
+- values: 动画值列表
+- dur: 持续时间
+- repeatCount: 重复次数
+- begin: 开始时间
+- fill: 动画结束后的状态 
