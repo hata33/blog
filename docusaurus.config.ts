@@ -2,9 +2,9 @@ import { themes as prismThemes } from "prism-react-renderer";
 import type { Config } from "@docusaurus/types";
 import type * as Preset from "@docusaurus/preset-classic";
 
-const config: Config= {
+const config: Config = {
   title: "Hata's blog",
-  tagline: "The new storm has appeared, how can it stop?", 
+  tagline: "The new storm has appeared, how can it stop?",
   favicon: "img/favicon.ico",
 
   // Set the production url of your site here
@@ -14,9 +14,14 @@ const config: Config= {
   onBrokenLinks: "throw",
   onBrokenMarkdownLinks: "warn",
 
+  // 启用 Mermaid 图表支持
+  markdown: {
+    mermaid: true,
+  },
+
   // Even if you don't use internationalization, you can use this field to set
-  // useful metadata like html lang. For example, if your site is Chinese, you
-  // may want to replace "en" with "zh-Hans".
+  // useful metadata like html lang: For example, if your site is Chinese, you
+  // might want to replace "en" with "zh-Hans".
   i18n: {
     defaultLocale: "en",
     locales: ["en"],
@@ -32,7 +37,7 @@ const config: Config= {
         docs: {
           routeBasePath: "/",
           remarkPlugins: [
-            // 自动为 00-AI 目录下的文件禁用 MDX
+            // 不再自动禁用 MDX，以支持 Mermaid
             require('./plugins/disable-mdx-plugin.ts'),
           ],
         },
