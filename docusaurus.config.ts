@@ -29,6 +29,13 @@ const config: Config= {
         theme: {
           customCss: "./src/css/custom.css",
         },
+        docs: {
+          routeBasePath: "/",
+          remarkPlugins: [
+            // 自动为 00-AI 目录下的文件禁用 MDX
+            require('./plugins/disable-mdx-plugin.ts'),
+          ],
+        },
       } satisfies Preset.Options,
     ],
   ],
