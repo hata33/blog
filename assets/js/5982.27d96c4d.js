@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkblog=globalThis.webpackChunkblog||[]).push([[5982],{5982(e,a,b){b.d(a,{createPacketServices:()=>c.$});var c=b(6527);b(6902)}}]);
