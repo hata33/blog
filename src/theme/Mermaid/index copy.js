@@ -1,48 +1,22 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { renderMermaid, THEMES } from 'beautiful-mermaid';
 import mermaid from 'mermaid';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 
-// 初始化原始 mermaid
+// 初始化 Mermaid
 mermaid.initialize({
   startOnLoad: false,
   theme: 'default',
   securityLevel: 'loose',
 });
 
-// beautiful-mermaid 支持的图表类型
-const BEAUTIFUL_SUPPORTED_TYPES = [
-  'graph',
-  'flowchart',
-  'stateDiagram-v2',
-  'sequenceDiagram',
-  'classDiagram',
-  'erDiagram'
-];
-
-// 检测图表类型
-function detectDiagramType(code) {
-  if (!code || typeof code !== 'string') return null;
-  const firstLine = code.trim().split('\n')[0].trim();
-  const firstWord = firstLine.split(' ')[0];
-  return firstWord;
-}
-
-// 判断是否使用 beautiful-mermaid
-function shouldUseBeautifulMermaid(code) {
-  const type = detectDiagramType(code);
-  return BEAUTIFUL_SUPPORTED_TYPES.includes(type);
-}
-
 export default function MermaidWrapper(props) {
   const [svg, setSvg] = useState(null);
   const [error, setError] = useState(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [renderer, setRenderer] = useState(null); // 'beautiful' or 'original'
   const containerRef = useRef(null);
 
   useEffect(() => {
-    async function renderMermaidDiagram() {
+    async function renderMermaid() {
       try {
         // Docusaurus 传递的 props 可能包含 value 或 children
         const code = props.value || props.children || '';
@@ -55,49 +29,22 @@ export default function MermaidWrapper(props) {
           return;
         }
 
-        let renderedSvg;
-        let usedRenderer = 'original';
+        const id = `mermaid-${Math.random().toString(36).substring(2, 11)}`;
+        console.log('Mermaid id:', id);
 
-        // 尝试使用 beautiful-mermaid 渲染
-        if (shouldUseBeautifulMermaid(code)) {
-          try {
-            console.log('尝试使用 beautiful-mermaid 渲染');
+        const { svg: renderedSvg } = await mermaid.render(id, code);
 
-            // 检测当前是否为暗色模式
-            const isDark = document.documentElement.getAttribute('data-theme') === 'dark' ||
-                           document.documentElement.classList.contains('dark');
+        console.log('Mermaid rendered successfully, SVG length:', renderedSvg?.length);
 
-            // 选择对应的主题
-            const theme = isDark ? THEMES['tokyo-night'] : THEMES['github-light'];
-
-            renderedSvg = await renderMermaid(code, theme);
-            usedRenderer = 'beautiful';
-            console.log('beautiful-mermaid 渲染成功');
-          } catch (beautifulErr) {
-            console.warn('beautiful-mermaid 渲染失败，回退到原始 mermaid:', beautifulErr.message);
-            // 回退到原始 mermaid
-          }
-        }
-
-        // 如果 beautiful-mermaid 失败或不支持，使用原始 mermaid
-        if (!renderedSvg) {
-          console.log('使用原始 mermaid 渲染，类型:', detectDiagramType(code));
-
-          const id = `mermaid-${Math.random().toString(36).substring(2, 11)}`;
-          const { svg: mermaidSvg } = await mermaid.render(id, code);
-          renderedSvg = mermaidSvg;
-        }
-
-        setRenderer(usedRenderer);
-        console.log('Mermaid 渲染成功, 使用渲染器:', usedRenderer, 'SVG 长度:', renderedSvg?.length);
+        // 直接使用渲染的 SVG，不做任何修改
         setSvg(renderedSvg);
       } catch (err) {
-        console.error('Mermaid 渲染错误:', err);
+        console.error('Mermaid rendering error:', err);
         setError(err.message || err.toString());
       }
     }
 
-    renderMermaidDiagram();
+    renderMermaid();
   }, [props.value, props.children]);
 
   const toggleFullscreen = () => {
@@ -226,19 +173,6 @@ export default function MermaidWrapper(props) {
               <button onClick={(e) => { e.stopPropagation(); zoomOut(); }} className="button button--secondary button--sm" style={{ padding: '4px 8px' }} title="缩小">－</button>
               <button onClick={(e) => { e.stopPropagation(); resetTransform(); }} className="button button--secondary button--sm" style={{ padding: '4px 8px' }} title="重置">⟲</button>
               <button onClick={(e) => { e.stopPropagation(); toggleFullscreen(); }} className="button button--secondary button--sm" style={{ padding: '4px 8px' }} title={isFullscreen ? "退出全屏" : "全屏"}>{isFullscreen ? '⛶' : '⛶'}</button>
-              {renderer === 'beautiful' && (
-                <span style={{
-                  padding: '4px 8px',
-                  fontSize: '0.75rem',
-                  background: 'var(--ifm-color-success)',
-                  color: 'white',
-                  borderRadius: '4px',
-                  display: 'flex',
-                  alignItems: 'center'
-                }} title="使用 beautiful-mermaid 渲染">
-                  ✨
-                </span>
-              )}
             </div>
 
             {/* 渲染区域 */}
@@ -279,3 +213,4 @@ export default function MermaidWrapper(props) {
     </div>
   );
 }
+
