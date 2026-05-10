@@ -1,0 +1,638 @@
+<!doctype html>
+<html lang="en" dir="ltr" class="docs-wrapper plugin-docs plugin-id-default docs-version-current docs-doc-page docs-doc-id-AI/langchain/agent" data-has-hydrated="false">
+<head>
+<meta charset="UTF-8">
+<meta name="generator" content="Docusaurus v3.10.1">
+<title data-rh="true">agent | Hata&#x27;s blog</title><meta data-rh="true" name="viewport" content="width=device-width,initial-scale=1"><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://hata33.github.io/blog/AI/langchain/agent"><meta data-rh="true" property="og:locale" content="en"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docusaurus_version" content="current"><meta data-rh="true" name="docusaurus_tag" content="docs-default-current"><meta data-rh="true" name="docsearch:version" content="current"><meta data-rh="true" name="docsearch:docusaurus_tag" content="docs-default-current"><meta data-rh="true" property="og:title" content="agent | Hata&#x27;s blog"><meta data-rh="true" name="description" content="https://docs.langchain.com/oss/python/langchain/agents#model"><meta data-rh="true" property="og:description" content="https://docs.langchain.com/oss/python/langchain/agents#model"><link data-rh="true" rel="icon" href="/blog/img/favicon.ico"><link data-rh="true" rel="canonical" href="https://hata33.github.io/blog/AI/langchain/agent"><link data-rh="true" rel="alternate" href="https://hata33.github.io/blog/AI/langchain/agent" hreflang="en"><link data-rh="true" rel="alternate" href="https://hata33.github.io/blog/AI/langchain/agent" hreflang="x-default"><script data-rh="true" type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"agent","item":"https://hata33.github.io/blog/AI/langchain/agent"}]}</script><link rel="stylesheet" href="/blog/assets/css/styles.d6b95331.css">
+<script src="/blog/assets/js/runtime~main.79fc32bf.js" defer="defer"></script>
+<script src="/blog/assets/js/main.f46e4910.js" defer="defer"></script>
+</head>
+<body>
+<svg style="display: none;"><defs>
+<symbol id="theme-svg-external-link" viewBox="0 0 24 24"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"/></symbol>
+</defs></svg>
+<script>!function(){var t=function(){try{return new URLSearchParams(window.location.search).get("docusaurus-theme")}catch(t){}}()||function(){try{return window.localStorage.getItem("theme")}catch(t){}}();document.documentElement.setAttribute("data-theme",t||"light"),document.documentElement.setAttribute("data-theme-choice",t||"light")}(),function(){try{const c=new URLSearchParams(window.location.search).entries();for(var[t,e]of c)if(t.startsWith("docusaurus-data-")){var a=t.replace("docusaurus-data-","data-");document.documentElement.setAttribute(a,e)}}catch(t){}}()</script><div id="__docusaurus"><div role="region" aria-label="Skip to main content"><a class="skipToContent_fXgn" href="#__docusaurus_skipToContent_fallback">Skip to main content</a></div><nav aria-label="Main" class="theme-layout-navbar navbar navbar--fixed-top"><div class="navbar__inner"><div class="theme-layout-navbar-left navbar__items"><a class="navbar__brand" href="/blog/"><b class="navbar__title text--truncate">hata 的博客</b></a></div><div class="theme-layout-navbar-right navbar__items navbar__items--right"><div class="toggle_vylO colorModeToggle_DEke"><button class="clean-btn toggleButton_gllP toggleButtonDisabled_aARS" type="button" disabled="" title="system mode" aria-label="Switch between dark and light mode (currently system mode)"><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP lightToggleIcon_pyhR"><path fill="currentColor" d="M12,9c1.65,0,3,1.35,3,3s-1.35,3-3,3s-3-1.35-3-3S10.35,9,12,9 M12,7c-2.76,0-5,2.24-5,5s2.24,5,5,5s5-2.24,5-5 S14.76,7,12,7L12,7z M2,13l2,0c0.55,0,1-0.45,1-1s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S1.45,13,2,13z M20,13l2,0c0.55,0,1-0.45,1-1 s-0.45-1-1-1l-2,0c-0.55,0-1,0.45-1,1S19.45,13,20,13z M11,2v2c0,0.55,0.45,1,1,1s1-0.45,1-1V2c0-0.55-0.45-1-1-1S11,1.45,11,2z M11,20v2c0,0.55,0.45,1,1,1s1-0.45,1-1v-2c0-0.55-0.45-1-1-1C11.45,19,11,19.45,11,20z M5.99,4.58c-0.39-0.39-1.03-0.39-1.41,0 c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0s0.39-1.03,0-1.41L5.99,4.58z M18.36,16.95 c-0.39-0.39-1.03-0.39-1.41,0c-0.39,0.39-0.39,1.03,0,1.41l1.06,1.06c0.39,0.39,1.03,0.39,1.41,0c0.39-0.39,0.39-1.03,0-1.41 L18.36,16.95z M19.42,5.99c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06c-0.39,0.39-0.39,1.03,0,1.41 s1.03,0.39,1.41,0L19.42,5.99z M7.05,18.36c0.39-0.39,0.39-1.03,0-1.41c-0.39-0.39-1.03-0.39-1.41,0l-1.06,1.06 c-0.39,0.39-0.39,1.03,0,1.41s1.03,0.39,1.41,0L7.05,18.36z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP darkToggleIcon_wfgR"><path fill="currentColor" d="M9.37,5.51C9.19,6.15,9.1,6.82,9.1,7.5c0,4.08,3.32,7.4,7.4,7.4c0.68,0,1.35-0.09,1.99-0.27C17.45,17.19,14.93,19,12,19 c-3.86,0-7-3.14-7-7C5,9.07,6.81,6.55,9.37,5.51z M12,3c-4.97,0-9,4.03-9,9s4.03,9,9,9s9-4.03,9-9c0-0.46-0.04-0.92-0.1-1.36 c-0.98,1.37-2.58,2.26-4.4,2.26c-2.98,0-5.4-2.42-5.4-5.4c0-1.81,0.89-3.42,2.26-4.4C12.92,3.04,12.46,3,12,3L12,3z"></path></svg><svg viewBox="0 0 24 24" width="24" height="24" aria-hidden="true" class="toggleIcon_g3eP systemToggleIcon_QzmC"><path fill="currentColor" d="m12 21c4.971 0 9-4.029 9-9s-4.029-9-9-9-9 4.029-9 9 4.029 9 9 9zm4.95-13.95c1.313 1.313 2.05 3.093 2.05 4.95s-0.738 3.637-2.05 4.95c-1.313 1.313-3.093 2.05-4.95 2.05v-14c1.857 0 3.637 0.737 4.95 2.05z"></path></svg></button></div><div class="navbarSearchContainer_Bca1"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div id="__docusaurus_skipToContent_fallback" class="theme-layout-main main-wrapper mainWrapper_z2l0"><div class="docsWrapper_hBAB"><button aria-label="Scroll back to top" class="clean-btn theme-back-to-top-button backToTopButton_sjWU" type="button"></button><div class="docRoot_UBD9"><aside class="theme-doc-sidebar-container docSidebarContainer_YfHR"><div class="sidebarViewport_aRkj"><div class="sidebar_njMd"><nav aria-label="Docs sidebar" class="menu thin-scrollbar menu_SIkG"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" href="/blog/AI/大模型部署/基础知识"><span title="AI" class="categoryLinkLabel_W154">AI</span></a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/blog/AI/大模型部署/基础知识"><span title="大模型部署" class="categoryLinkLabel_W154">大模型部署</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-2 menu__list-item"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret menu__link--active" role="button" aria-expanded="true" tabindex="0" href="/blog/AI/langchain/agent"><span title="langchain" class="categoryLinkLabel_W154">langchain</span></a></div><ul class="menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" tabindex="0" href="/blog/AI/langchain/agent"><span title="agent" class="linkLabel_WmDU">agent</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/model"><span title="model" class="linkLabel_WmDU">model</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/message"><span title="message" class="linkLabel_WmDU">message</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/tools"><span title="tools" class="linkLabel_WmDU">tools</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/short_term_memory"><span title="short_term_memory" class="linkLabel_WmDU">short_term_memory</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/Streaming"><span title="Streaming" class="linkLabel_WmDU">Streaming</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/StructuredOutput"><span title="StructuredOutput" class="linkLabel_WmDU">StructuredOutput</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/Middleware"><span title="Middleware" class="linkLabel_WmDU">Middleware</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/PrebuiltMiddleware"><span title="PrebuiltMiddleware" class="linkLabel_WmDU">PrebuiltMiddleware</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/CustomMiddleware"><span title="CustomMiddleware" class="linkLabel_WmDU">CustomMiddleware</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/Frontend"><span title="Frontend" class="linkLabel_WmDU">Frontend</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/Integrations"><span title="Integrations" class="linkLabel_WmDU">Integrations</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/010-1-自定义时间中间件"><span title="010-1-自定义时间中间件" class="linkLabel_WmDU">010-1-自定义时间中间件</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/011-1-MarkdownMessages"><span title="011-1-MarkdownMessages" class="linkLabel_WmDU">011-1-MarkdownMessages</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/011-10-GenerativeUI"><span title="011-10-GenerativeUI" class="linkLabel_WmDU">011-10-GenerativeUI</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/011-2-ToolCalling"><span title="011-2-ToolCalling" class="linkLabel_WmDU">011-2-ToolCalling</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/011-3-Human-in-the-Loop"><span title="011-3-Human-in-the-Loop" class="linkLabel_WmDU">011-3-Human-in-the-Loop</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/011-4-BranchingChat"><span title="011-4-BranchingChat" class="linkLabel_WmDU">011-4-BranchingChat</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/011-5-ReasoningTokens"><span title="011-5-ReasoningTokens" class="linkLabel_WmDU">011-5-ReasoningTokens</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/011-6-StructuredOutput"><span title="011-6-StructuredOutput" class="linkLabel_WmDU">011-6-StructuredOutput</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/011-7-MessageQueues"><span title="011-7-MessageQueues" class="linkLabel_WmDU">011-7-MessageQueues</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/011-8-Join&amp;RejoinStreams"><span title="011-8-Join&amp;RejoinStreams" class="linkLabel_WmDU">011-8-Join&amp;RejoinStreams</span></a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-3 menu__list-item"><a class="menu__link" tabindex="0" href="/blog/AI/langchain/011-9-TimeTravel"><span title="011-9-TimeTravel" class="linkLabel_WmDU">011-9-TimeTravel</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-3 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/blog/AI/langchain/AdvancedUsage/Guardrails"><span title="AdvancedUsage" class="categoryLinkLabel_W154">AdvancedUsage</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-3 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/blog/AI/langchain/AgentDevelopment/LangSmithStudio"><span title="AgentDevelopment" class="categoryLinkLabel_W154">AgentDevelopment</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-3 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" tabindex="0" href="/blog/AI/langchain/LangGraph/LangGraph"><span title="LangGraph" class="categoryLinkLabel_W154">LangGraph</span></a></div></li></ul></li></ul></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/learn-claude-code/执行流程/S04_subagent"><span title="learn-claude-code" class="categoryLinkLabel_W154">learn-claude-code</span></a></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/blog/intro"><span title="自动化部署前端静态站点" class="linkLabel_WmDU">自动化部署前端静态站点</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/JavaScript/promsie/promise"><span title="JavaScript" class="categoryLinkLabel_W154">JavaScript</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/CSS/css常见问题"><span title="CSS" class="categoryLinkLabel_W154">CSS</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/TypeScript/基础类型"><span title="TypeScript" class="categoryLinkLabel_W154">TypeScript</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/手写代码/js手写"><span title="手写代码" class="categoryLinkLabel_W154">手写代码</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/Git/常用命令"><span title="Git" class="categoryLinkLabel_W154">Git</span></a></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/blog/git"><span title="git" class="linkLabel_WmDU">git</span></a></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/面试题/js面试题"><span title="面试题" class="categoryLinkLabel_W154">面试题</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/svg/基础"><span title="svg" class="categoryLinkLabel_W154">svg</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/算法/数据结构"><span title="算法" class="categoryLinkLabel_W154">算法</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/canvas/图片处理"><span title="canvas" class="categoryLinkLabel_W154">canvas</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/react/jsx-to-html"><span title="react" class="categoryLinkLabel_W154">react</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/计算机网络/基础概念"><span title="计算机网络" class="categoryLinkLabel_W154">计算机网络</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/Vue/响应式原理"><span title="Vue" class="categoryLinkLabel_W154">Vue</span></a></div></li><li class="theme-doc-sidebar-item-category theme-doc-sidebar-item-category-level-1 menu__list-item menu__list-item--collapsed"><div class="menu__list-item-collapsible"><a class="categoryLink_byQd menu__link menu__link--sublist menu__link--sublist-caret" role="button" aria-expanded="false" href="/blog/后端/核心概念关联图"><span title="后端" class="categoryLinkLabel_W154">后端</span></a></div></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/blog/前端安全"><span title="前端安全" class="linkLabel_WmDU">前端安全</span></a></li></ul></nav></div></div></aside><main class="docMainContainer_TBSr"><div class="container padding-top--md padding-bottom--lg"><div class="row"><div class="col docItemCol_VOVn"><div class="docItemContainer_Djhp"><article><nav class="theme-doc-breadcrumbs breadcrumbsContainer_Z_bl" aria-label="Breadcrumbs"><ul class="breadcrumbs"><li class="breadcrumbs__item"><a aria-label="Home page" class="breadcrumbs__link" href="/blog/"><svg viewBox="0 0 24 24" class="breadcrumbHomeIcon_YNFT"><path d="M10 19v-5h4v5c0 .55.45 1 1 1h3c.55 0 1-.45 1-1v-7h1.7c.46 0 .68-.57.33-.87L12.67 3.6c-.38-.34-.96-.34-1.34 0l-8.36 7.53c-.34.3-.13.87.33.87H5v7c0 .55.45 1 1 1h3c.55 0 1-.45 1-1z" fill="currentColor"></path></svg></a></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">AI</span></li><li class="breadcrumbs__item"><span class="breadcrumbs__link">langchain</span></li><li class="breadcrumbs__item breadcrumbs__item--active"><span class="breadcrumbs__link">agent</span></li></ul></nav><div class="tocCollapsible_ETCw theme-doc-toc-mobile tocMobile_ITEo"><button type="button" class="clean-btn tocCollapsibleButton_TO0P">On this page</button></div><div class="theme-doc-markdown markdown"><p><a href="https://docs.langchain.com/oss/python/langchain/agents#model" target="_blank" rel="noopener noreferrer" class="">https://docs.langchain.com/oss/python/langchain/agents#model</a>
+概览：
+LangChain 关键核心知识点概览
+基于你学习的所有文档和产出的约束，汇总成一张核心知识地图：</p>
+<p>一、架构认知
+概念	一句话本质
+Agent	模型 + 工具 + 提示词 + 记忆，在 ReAct 循环中自主决策的系统
+ReAct 循环	推理 → 工具调用 → 观测结果 → 继续推理，直到输出最终答案
+LangGraph 底层	Agent 是基于图的运行时，节点（模型、工具、中间件）由边连接
+约束工程	不恳求模型遵守规则，而是构建让破坏规 则变得不可能的系统</p>
+<p>二、Agent 组装四要素
+create_agent(model, tools, system_prompt, checkpointer, middleware)
+│       │         │              │            │
+▼       ▼         ▼              ▼            ▼
+推理引擎  能力边界   行为边界      会话记忆     扩展钩子
+要素	必填	核心约束
+model	✅	用 init_chat_model，显式设 temperature/timeout/max_tokens
+tools	✅	用 @tool 装饰，docstring 含 Args/Returns/Raises，函数名 snake_case
+system_prompt	✅	含 ## Capabilities + ## Rules，工具名用反引号与函数名严格一致
+checkpointer	✅	开发用 InMemory，生产用 Postgres；同 thread_id 同会话
+middleware	❌	拦截模型调用/工具调用/状态变化，动态模型/工具/prompt</p>
+<p>三、模型使用核心要点
+要点	规则
+初始化	init_chat_model(&quot;provider<!-- -->:model<!-- -->&quot;) 优先
+单次调用	invoke(messages) → AIMessage
+流式调用	stream() → 迭代 AIMessageChunk
+批量调用	batch(inputs) → 并行处理
+逐结果返回	batch_as_completed(inputs) → 异步返回
+工具绑定	bind_tools([...]) → .tool_calls
+结构化输出	with_structured_output(Schema) → model 实例</p>
+<p>四、工具定义规范
+@tool
+def tool_name(param: str) -&gt; str:          # snake_case 命名
+&quot;&quot;&quot;一句话描述工具做什么。              # ← 第一行注入模型上下文</p>
+<p>Args:
+param: 参数类型和含义</p>
+<p>Returns:
+返回值结构和含义</p>
+<p>Raises:
+ExceptionType: 触发条件
+&quot;&quot;&quot;
+关键边界：
+● 函数名与 system_prompt 反引号内名称 字符级一致
+● docstring 缺 Args/Returns/Raises → 模型调用可能错误
+● 动态工具需同时实现 wrap_model_call + wrap_tool_call</p>
+<p>五、Middleware 拦截节点
+Hook	触发时机	用途
+@wrap_model_call	模型调用前	动态切换模型/过滤工具列表
+@wrap_tool_call	工具执行前	错误处理/动态工具执行
+@before_model	模型调用前（不修改请求）	状态预处理/消 息裁剪
+@after_model	模型返回后	响应验证/内容过滤
+@dynamic_prompt	模型调用前	根据运行时上下文动态生成 system prompt
+核心规则：
+● 修改请求必须用 request.override(...)，不可直接改属性
+● handler 只能调用一次</p>
+<p>六、记忆系统分层
+层级	机制	持久性
+消息历史	checkpointer + thread_id	InMemory（开发）/ Postgres（生产）
+自定义状态	AgentState TypedDict 扩展	会话内持久，会话间通过 store
+长期记忆	store（跨会话持久化）	数据库持久化
+核心约束：
+● 同会话复用 thread_id，不同会话用不同 thread_id
+● 自定义状态必须继承 AgentState 且为 TypedDict（v1 起）
+● 长对话必须配消息管理策略（裁剪/摘要 middleware）</p>
+<p>七、调用与流式输出</p>
+<header><h1>同步</h1></header>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">result = agent.invoke({&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;...&quot;}]})</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">answer = result[&quot;messages&quot;][-1].content_blocks</span><br></div></code></pre></div></div>
+<h1>流式</h1>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">for chunk in agent.stream({&quot;messages&quot;: [...]}, stream_mode=&quot;values&quot;):</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    latest = chunk[&quot;messages&quot;][-1]</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    if isinstance(latest, AIMessage):</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">        if latest.content: print(latest.content)</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">        if latest.tool_calls: print(latest.tool_calls)</span><br></div></code></pre></div></div>
+<p>核心约束：
+● invoke 必须传入消息列表，不可传字符串
+● 流式必须区分消息类型（HumanMessage / AIMessage / ToolMessage）
+● 提取结果用 .content_blocks 而非 .content（当有 tool_calls 时 .content 为空）</p>
+<p>八、核心决策树
+需要多步规划/文件系统中转/子Agent？
+├─ 是 → create_deep_agent
+└─ 否 → create_agent</p>
+<p>模型支持原生结构化输出？
+├─ 是 → ProviderStrategy（或直接传 Pydantic schema，自动选择）
+└─ 否 → ToolStrategy</p>
+<p>工具在运行时才确定？
+├─ 是 → 动态工具（wrap_model_call + wrap_tool_call）
+└─ 否 → 静态工具（直接传 tools 列表）</p>
+<p>需要根据用户/状态决定可见工具？
+├─ 是 → 过滤预注册工具（wrap_model_call 中过滤）
+└─ 否 → 全部工具直接暴露</p>
+<p>九、你的约束资产库（已产出）
+模块	约束文档
+Model 初始化	✅
+Tools 定义	✅
+System Prompt	✅
+Memory	✅
+Invocation	✅
+Streaming	✅
+Middleware	✅
+Structured Output	✅
+Create and Run	✅
+Review Results	✅</p>
+<p>这张知识地图是你所有提示词资产的索引。后续复刻任何 LangChain 应用，按这张地图定位所需模块，调出对应的约束文档，嵌入你的任务提示词即可。
+LangChain 模型选择</p>
+<h1>约束：LangChain 模型选择的代码规范</h1>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="技术边界">技术边界<a href="#技术边界" class="hash-link" aria-label="Direct link to 技术边界" title="Direct link to 技术边界" translate="no">​</a></h2>
+<ul>
+<li class=""><code>create_agent</code> 的第一个参数可以是<strong>字符串</strong>（自动解析为 &quot;provider<!-- -->:model<!-- -->&quot;）或<strong>模型实例</strong>（完整控制配置）</li>
+<li class="">模型标识符字符串 &quot;gpt-5.4&quot; 会被自动推断为 &quot;openai<!-- -->:gpt-5<!-- -->.4&quot;</li>
+<li class="">传字符串无法设置 temperature、timeout、max_tokens；传模型实例则全部可控</li>
+<li class="">动态模型通过 <code>middleware</code> + <code>@wrap_model_call</code> 实现，在每次请求时根据 <code>request.state</code> 决定用哪个模型</li>
+<li class=""><code>bind_tools</code> 已调用的预绑定模型，不能用于需要结构化输出的动态模型场景</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="生成要求">生成要求<a href="#生成要求" class="hash-link" aria-label="Direct link to 生成要求" title="Direct link to 生成要求" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-模型选择决策优先使用模型实例">1. 模型选择决策（优先使用模型实例）<a href="#1-模型选择决策优先使用模型实例" class="hash-link" aria-label="Direct link to 1. 模型选择决策（优先使用模型实例）" title="Direct link to 1. 模型选择决策（优先使用模型实例）" translate="no">​</a></h3>
+<p>生成代码时，必须遵循以下决策链生成 <code>create_agent</code> 的第一个参数：</p>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">if 需要显式设置 temperature/timeout/max_tokens/base_url 中任一参数:</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    使用模型实例（如 ChatOpenAI(model=&quot;...&quot;, temperature=..., timeout=...)）</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">elif 模型标识符字符串可以被自动推断（如 &quot;gpt-5.4&quot; → &quot;openai:gpt-5.4&quot;）:</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    可使用字符串 &quot;provider:model&quot;</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">else:</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    使用模型实例，显式指定 model_provider 和 model</span><br></div></code></pre></div></div>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-模型实例chatopenai--chatanthropic-等">2. 模型实例（ChatOpenAI / ChatAnthropic 等）<a href="#2-模型实例chatopenai--chatanthropic-等" class="hash-link" aria-label="Direct link to 2. 模型实例（ChatOpenAI / ChatAnthropic 等）" title="Direct link to 2. 模型实例（ChatOpenAI / ChatAnthropic 等）" translate="no">​</a></h3>
+<ul>
+<li class="">必须显式设置 <code>temperature</code>（默认 0.5）和 <code>timeout</code>（默认 300 秒）</li>
+<li class="">从 <code>langchain_openai</code>、<code>langchain_anthropic</code> 等独立包导入，不通过 langchain 的顶层导出</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-动态模型middleware-模式">3. 动态模型（middleware 模式）<a href="#3-动态模型middleware-模式" class="hash-link" aria-label="Direct link to 3. 动态模型（middleware 模式）" title="Direct link to 3. 动态模型（middleware 模式）" translate="no">​</a></h3>
+<ul>
+<li class="">使用 <code>from langchain.agents.middleware import wrap_model_call</code> 导入</li>
+<li class="">使用 <code>@wrap_model_call</code> 装饰器定义函数，签名固定为 <code>(request: ModelRequest, handler) -&gt; ModelResponse</code></li>
+<li class=""><code>request.state[&quot;messages&quot;]</code> 可获取当前消息列表</li>
+<li class="">通过 <code>handler(request.override(model=selected_model))</code> 传入替换后的模型</li>
+<li class="">传入 <code>create_agent</code> 时使用 <code>middleware=[...]</code> 参数，且 <code>model</code> 参数必须是默认模型（不预绑定工具）</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-自动推断约束">4. 自动推断约束<a href="#4-自动推断约束" class="hash-link" aria-label="Direct link to 4. 自动推断约束" title="Direct link to 4. 自动推断约束" translate="no">​</a></h3>
+<ul>
+<li class="">允许省略 provider 的模型标识符：<code>&quot;gpt-5.4&quot;</code> 可被自动推断为 <code>&quot;openai:gpt-5.4&quot;</code></li>
+<li class="">非知名模型标识符必须显式写出完整 <code>&quot;provider:model&quot;</code> 格式</li>
+<li class="">可在生成代码时写 <code>&quot;openai:gpt-5.4&quot;</code>，即使只用 <code>&quot;gpt-5.4&quot;</code> 也能运行</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="反例">反例<a href="#反例" class="hash-link" aria-label="Direct link to 反例" title="Direct link to 反例" translate="no">​</a></h2>
+<ul>
+<li class="">❌ <code>create_agent(ChatOpenAI(model=&quot;gpt-5.4&quot;))</code> — 缺少 temperature 和 timeout<!-- -->
+<ul>
+<li class="">✅ FIX：<code>create_agent(ChatOpenAI(model=&quot;gpt-5.4&quot;, temperature=0.5, timeout=300))</code></li>
+</ul>
+</li>
+<li class="">❌ <code>ChatOpenAI(model=&quot;gpt-5.4&quot;, temperature=0.5)</code> — 缺 timeout<!-- -->
+<ul>
+<li class="">✅ FIX：显式追加 <code>timeout=300</code></li>
+</ul>
+</li>
+<li class="">❌ 动态模型 middleware 中 <code>handler(request)</code> 直接返回，未调用 <code>.override(model=...)</code>
+<ul>
+<li class="">✅ FIX：<code>return handler(request.override(model=selected_model))</code></li>
+</ul>
+</li>
+<li class="">❌ 动态模型 middleware 传入预绑定工具的模型<!-- -->
+<ul>
+<li class="">✅ FIX：middleware 中的模型使用原始实例，非 <code>model.bind_tools(...)</code> 的返回值</li>
+</ul>
+</li>
+<li class="">❌ 传入未知模型标识符却不显式写 provider<!-- -->
+<ul>
+<li class="">✅ FIX：写完整格式 <code>&quot;provider:model_name&quot;</code></li>
+</ul>
+</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="验收标准">验收标准<a href="#验收标准" class="hash-link" aria-label="Direct link to 验收标准" title="Direct link to 验收标准" translate="no">​</a></h2>
+<ul class="contains-task-list containsTaskList_mC6p">
+<li class="task-list-item"><input type="checkbox" disabled=""> <code>create_agent</code> 的第一个参数是模型实例，除非只使用默认配置</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->模型实例显式设置了 <code>temperature</code> 和 <code>timeout</code></li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->动态模型 middleware 使用 <code>@wrap_model_call</code>，非自定义中间件</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <code>handler</code> 调用时使用 <code>.override(model=...)</code> 模式</li>
+<li class="task-list-item"><input type="checkbox" disabled=""> <!-- -->middleware 中的模型未被 <code>bind_tools</code> 预处理</li>
+</ul>
+<p>LangChain System Prompt</p>
+<h1>约束：LangChain 工具（Tools）的代码规范</h1>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="技术边界-1">技术边界<a href="#技术边界-1" class="hash-link" aria-label="Direct link to 技术边界" title="Direct link to 技术边界" translate="no">​</a></h2>
+<ul>
+<li class="">工具通过 <code>@tool</code> 装饰器注册，或直接传入普通 Python 函数/协程</li>
+<li class="">工具列表通过 <code>create_agent</code> 的 <code>tools</code> 参数注入，传入空列表 <code>[]</code> 则 Agent 不具工具调用能力</li>
+<li class="">静态工具在 <code>create_agent</code> 时一次性定义；动态工具在 middleware 中通过 <code>request.override(tools=...)</code> 在运行时增删</li>
+<li class="">动态工具分两种模式：<strong>过滤预注册工具</strong>（<code>wrap_model_call</code> 中过滤）和<strong>运行时注册工具</strong>（需同时实现 <code>wrap_model_call</code> 和 <code>wrap_tool_call</code>）</li>
+<li class="">工具名使用 <code>snake_case</code>，禁止包含空格或特殊字符（多 provider 兼容性要求）</li>
+<li class="">Agent 遵循 ReAct 循环：推理 → 工具调用 → 观测结果 → 继续推理/输出答案</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="生成要求-1">生成要求<a href="#生成要求-1" class="hash-link" aria-label="Direct link to 生成要求" title="Direct link to 生成要求" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-静态工具定义">1. 静态工具定义<a href="#1-静态工具定义" class="hash-link" aria-label="Direct link to 1. 静态工具定义" title="Direct link to 1. 静态工具定义" translate="no">​</a></h3>
+<ul>
+<li class="">每个工具函数使用 <code>@tool</code> 装饰器，docstring 第一行为功能描述</li>
+<li class="">工具函数名全小写+下划线，与 <code>system_prompt</code> 中反引号引用的工具名完全一致</li>
+<li class="">传递给 <code>create_agent</code> 时使用 <code>tools=[tool1, tool2]</code> 列表形式</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-动态工具--过滤预注册工具">2. 动态工具 — 过滤预注册工具<a href="#2-动态工具--过滤预注册工具" class="hash-link" aria-label="Direct link to 2. 动态工具 — 过滤预注册工具" title="Direct link to 2. 动态工具 — 过滤预注册工具" translate="no">​</a></h3>
+<ul>
+<li class="">使用 <code>@wrap_model_call</code> 装饰器，在 middleware 中根据 <code>request.state</code> / <code>request.runtime.context</code> / <code>request.runtime.store</code> 过滤 <code>request.tools</code></li>
+<li class="">过滤后必须通过 <code>request.override(tools=filtered_tools)</code> 返回</li>
+<li class="">适用场景：所有可能的工具在创建 Agent 时已知，但根据权限/状态动态开关</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-动态工具--运行时注册">3. 动态工具 — 运行时注册<a href="#3-动态工具--运行时注册" class="hash-link" aria-label="Direct link to 3. 动态工具 — 运行时注册" title="Direct link to 3. 动态工具 — 运行时注册" translate="no">​</a></h3>
+<ul>
+<li class="">条件：工具在运行时才被发现（MCP 服务器、远程注册表等）</li>
+<li class=""><strong>必须同时实现两个 middleware hook</strong>：<!-- -->
+<ul>
+<li class=""><code>wrap_model_call</code>：通过 <code>request.override(tools=[*request.tools, new_tool])</code> 添加工具</li>
+<li class=""><code>wrap_tool_call</code>：拦截工具调用请求，通过 <code>request.override(tool=new_tool)</code> 指定执行函数</li>
+</ul>
+</li>
+<li class="">仅当 <code>request.tool_call[&quot;name&quot;]</code> 匹配动态工具名时才做 override</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-工具错误处理">4. 工具错误处理<a href="#4-工具错误处理" class="hash-link" aria-label="Direct link to 4. 工具错误处理" title="Direct link to 4. 工具错误处理" translate="no">​</a></h3>
+<ul>
+<li class="">使用 <code>@wrap_tool_call</code> 定义错误处理 middleware</li>
+<li class="">捕获异常后必须返回 <code>ToolMessage(content=..., tool_call_id=request.tool_call[&quot;id&quot;])</code></li>
+<li class=""><code>tool_call_id</code> 必须从 <code>request.tool_call[&quot;id&quot;]</code> 提取，不可硬编码</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="反例-1">反例<a href="#反例-1" class="hash-link" aria-label="Direct link to 反例" title="Direct link to 反例" translate="no">​</a></h2>
+<ul>
+<li class="">❌ 工具函数用驼峰命名 <code>def searchProduct(...)</code>
+<ul>
+<li class="">✅ FIX：改为 <code>search_product</code>，<code>system_prompt</code> 中引用 <code>search_product</code></li>
+</ul>
+</li>
+<li class="">❌ 动态工具只在 <code>wrap_model_call</code> 中注册，未实现 <code>wrap_tool_call</code>
+<ul>
+<li class="">✅ FIX：同时实现两个 hook，<code>wrap_tool_call</code> 中对匹配的动态工具做 <code>request.override(tool=...)</code></li>
+</ul>
+</li>
+<li class="">❌ 工具异常处理中用 <code>return f&quot;Error: {e}&quot;</code> 返回字符串<!-- -->
+<ul>
+<li class="">✅ FIX：返回 <code>ToolMessage(content=f&quot;Tool error: ...&quot;, tool_call_id=request.tool_call[&quot;id&quot;])</code></li>
+</ul>
+</li>
+<li class="">❌ <code>create_agent(tools=[])</code> 但仍期望 Agent 能调用工具<!-- -->
+<ul>
+<li class="">✅ FIX：传入实际工具列表，或在 middleware 中动态注入</li>
+</ul>
+</li>
+</ul>
+<h1>约束：LangChain System Prompt 的代码规范</h1>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="技术边界-2">技术边界<a href="#技术边界-2" class="hash-link" aria-label="Direct link to 技术边界" title="Direct link to 技术边界" translate="no">​</a></h2>
+<ul>
+<li class=""><code>system_prompt</code> 参数接受 <code>str</code> 或 <code>SystemMessage</code> 对象</li>
+<li class="">传入 <code>str</code> 时，LangChain 自动包装为 <code>SystemMessage</code></li>
+<li class="">传入 <code>SystemMessage</code> 时，可使用 provider 特定功能（如 Anthropic 的 <code>cache_control</code>）</li>
+<li class="">不传 <code>system_prompt</code> 时，Agent 直接从消息列表推断任务</li>
+<li class="">动态 system prompt 通过 <code>@dynamic_prompt</code> 装饰器实现，在 middleware 中根据 <code>request.runtime.context</code> 生 成</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="生成要求-2">生成要求<a href="#生成要求-2" class="hash-link" aria-label="Direct link to 生成要求" title="Direct link to 生成要求" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-静态-system-prompt字符串形式">1. 静态 System Prompt（字符串形式）<a href="#1-静态-system-prompt字符串形式" class="hash-link" aria-label="Direct link to 1. 静态 System Prompt（字符串形式）" title="Direct link to 1. 静态 System Prompt（字符串形式）" translate="no">​</a></h3>
+<ul>
+<li class="">直接传入 <code>str</code>：<code>system_prompt=&quot;You are a helpful assistant. Be concise and accurate.&quot;</code></li>
+<li class="">字符串中如果引用工具名，使用反引号包裹，工具名与函数名完全一致</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-静态-system-promptsystemmessage-形式">2. 静态 System Prompt（SystemMessage 形式）<a href="#2-静态-system-promptsystemmessage-形式" class="hash-link" aria-label="Direct link to 2. 静态 System Prompt（SystemMessage 形式）" title="Direct link to 2. 静态 System Prompt（SystemMessage 形式）" translate="no">​</a></h3>
+<ul>
+<li class="">需要 provider 高级特性（如缓存）时使用 <code>SystemMessage</code></li>
+<li class="">Anthropic prompt caching 格式：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">SystemMessage</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">content</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">[</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">{</span><span class="token string" style="color:#e3116c">&quot;type&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;text&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;text&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;...&quot;</span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">{</span><span class="token string" style="color:#e3116c">&quot;type&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;text&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;text&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;&lt;content&gt;&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;cache_control&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token string" style="color:#e3116c">&quot;type&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;ephemeral&quot;</span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">}</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">]</span><span class="token punctuation" style="color:#393A34">)</span><br></div></code></pre></div></div>
+</li>
+<li class=""><code>cache_control</code> 字段只在 Anthropic provider 下生效，不兼容其他 provider</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-动态-system-prompt">3. 动态 System Prompt<a href="#3-动态-system-prompt" class="hash-link" aria-label="Direct link to 3. 动态 System Prompt" title="Direct link to 3. 动态 System Prompt" translate="no">​</a></h3>
+<ul>
+<li class="">使用 <code>from langchain.agents.middleware import dynamic_prompt</code> 导入</li>
+<li class="">函数签名：<code>(request: ModelRequest) -&gt; str</code>，返回 prompt 字符串</li>
+<li class="">从 <code>request.runtime.context</code> 中读取上下文数据决定 prompt 内容</li>
+<li class="">通过 <code>middleware=[...]</code> 传入 <code>create_agent</code>，需配合 <code>context_schema</code> 使用</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="反例-2">反例<a href="#反例-2" class="hash-link" aria-label="Direct link to 反例" title="Direct link to 反例" translate="no">​</a></h2>
+<ul>
+<li class="">❌ <code>system_prompt=SystemMessage(&quot;You are a helpful assistant&quot;)</code> — 将字符串直接传入 SystemMessage 构造器<!-- -->
+<ul>
+<li class="">✅ FIX：使用 <code>system_prompt=&quot;You are a helpful assistant&quot;</code> 或 <code>SystemMessage(content=[...])</code></li>
+</ul>
+</li>
+<li class="">  ❌ 在非 Anthropic provider 下使用 <code>cache_control</code>
+<ul>
+<li class="">✅ FIX：仅在 <code>model=&quot;anthropic:...&quot;</code> 时使用，或移除该字段</li>
+</ul>
+</li>
+<li class="">❌ 动态 prompt 函数返回 <code>SystemMessage</code> 对象而非 <code>str</code>
+<ul>
+<li class="">✅ FIX：<code>@dynamic_prompt</code> 函数必须返回 <code>str</code></li>
+</ul>
+</li>
+<li class="">❌ 引用工具名时用中文或与函数名不一致的命名<!-- -->
+<ul>
+<li class="">✅ FIX：system_prompt 中反引号内的工具名与 Python 函数名字符级一致</li>
+</ul>
+</li>
+</ul>
+<p>LangChain Agent 调用（Invocation）</p>
+<h1>约束：LangChain Agent 调用（Invocation）的代码规范</h1>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="技术边界-3">技术边界<a href="#技术边界-3" class="hash-link" aria-label="Direct link to 技术边界" title="Direct link to 技术边界" translate="no">​</a></h2>
+<ul>
+<li class="">Agent 通过 <code>invoke</code>（同步）或 <code>stream</code>（流式）调用</li>
+<li class=""><code>invoke</code> 的第一个参数为 <code>{&quot;messages&quot;: [...]}</code> 格式的 dict</li>
+<li class=""><code>messages</code> 列表中每条消息可以是 raw dict <code>{&quot;role&quot;: &quot;...&quot;, &quot;content&quot;: &quot;...&quot;}</code> 或 LangChain Message 对象</li>
+<li class=""><code>stream</code> 调用时，<code>stream_mode=&quot;values&quot;</code> 返回完整 State 快照，<code>stream_mode=&quot;messages&quot;</code> 返回增量消息</li>
+<li class=""><code>invoke</code> 返回的结果中，<code>result[&quot;messages&quot;][-1]</code> 是最后一条消息，通过 <code>.content</code> 或 <code>.content_blocks</code> 提取内容</li>
+<li class="">Agent 基于 LangGraph，支持所有 LangGraph 的方法（<code>invoke</code>、<code>stream</code>、<code>astream</code> 等）</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="生成要求-3">生成要求<a href="#生成要求-3" class="hash-link" aria-label="Direct link to 生成要求" title="Direct link to 生成要求" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-invoke-调用">1. invoke 调用<a href="#1-invoke-调用" class="hash-link" aria-label="Direct link to 1. invoke 调用" title="Direct link to 1. invoke 调用" translate="no">​</a></h3>
+<ul>
+<li class="">必须传入消息列表，格式为：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">result </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> agent</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">invoke</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">{</span><span class="token string" style="color:#e3116c">&quot;messages&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">[</span><span class="token punctuation" style="color:#393A34">{</span><span class="token string" style="color:#e3116c">&quot;role&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;user&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;content&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;...&quot;</span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">]</span><span class="token punctuation" style="color:#393A34">}</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">)</span><br></div></code></pre></div></div>
+</li>
+<li class="">不可传入单独的字符串作为消息</li>
+<li class="">提取最终回答：<code>result[&quot;messages&quot;][-1].content_blocks</code></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-stream-流式调用">2. stream 流式调用<a href="#2-stream-流式调用" class="hash-link" aria-label="Direct link to 2. stream 流式调用" title="Direct link to 2. stream 流式调用" translate="no">​</a></h3>
+<ul>
+<li class="">使用 for 循环遍历：<code>for chunk in agent.stream({&quot;messages&quot;: [...]}, stream_mode=&quot;values&quot;):</code></li>
+<li class="">每次 chunk 是完整 State 快照，<code>chunk[&quot;messages&quot;][-1]</code> 取最新消息</li>
+<li class="">需要区分消息类型：<!-- -->
+<ul>
+<li class=""><code>isinstance(latest_message, HumanMessage)</code>：用户消息</li>
+<li class=""><code>isinstance(latest_message, AIMessage)</code> 且有 <code>.content</code>：模型文本回复</li>
+<li class=""><code>isinstance(latest_message, AIMessage)</code> 且有 <code>.tool_calls</code>：工具调用请求</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-消息格式兼容性">3. 消息格式兼容性<a href="#3-消息格式兼容性" class="hash-link" aria-label="Direct link to 3. 消息格式兼容性" title="Direct link to 3. 消息格式兼容性" translate="no">​</a></h3>
+<ul>
+<li class="">优先使用 raw dict：<code>{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;...&quot;}</code>（兼容所有 provider）</li>
+<li class="">使用 LangChain Message 对象时需显式导入：<code>from langchain.messages import HumanMessage, AIMessage</code></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="反例-3">反例<a href="#反例-3" class="hash-link" aria-label="Direct link to 反例" title="Direct link to 反例" translate="no">​</a></h2>
+<ul>
+<li class="">❌ <code>agent.invoke(&quot;what is the weather&quot;)</code> — 传入字符串<!-- -->
+<ul>
+<li class="">✅ FIX：<code>agent.invoke({&quot;messages&quot;: [{&quot;role&quot;: &quot;user&quot;, &quot;content&quot;: &quot;what is the weather&quot;}]})</code></li>
+</ul>
+</li>
+<li class="">❌ <code>print(result)</code> — 直接打印整个 result 对象<!-- -->
+<ul>
+<li class="">✅ FIX：<code>print(result[&quot;messages&quot;][-1].content_blocks)</code></li>
+</ul>
+</li>
+<li class="">❌ <code>result[&quot;messages&quot;][-1].content</code> — 与 <code>.content_blocks</code> 混用，当存在 tool_calls 时 <code>.content</code> 为空字符串<!-- -->
+<ul>
+<li class="">✅ FIX：始终使用 <code>.content_blocks</code> 提取最终结构化输出</li>
+</ul>
+</li>
+<li class="">❌ stream 循环中不区分消息类型，直接打印 <code>.content</code>
+<ul>
+<li class="">✅ FIX：用 <code>isinstance</code> 判断消息类型后再处理
+Structured Output</li>
+</ul>
+</li>
+</ul>
+<h1>约束：LangChain 结构化输出（Structured Output）的代码规范</h1>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="技术边界-4">技术边界<a href="#技术边界-4" class="hash-link" aria-label="Direct link to 技术边界" title="Direct link to 技术边界" translate="no">​</a></h2>
+<ul>
+<li class="">结构化输出通过 <code>create_agent</code> 的 <code>response_format</code> 参数指定</li>
+<li class="">两种策略：<code>ToolStrategy</code>（通过人工工具调用生成结构化输出）和 <code>ProviderStrategy</code>（使用 provider 原生能力）</li>
+<li class=""><code>ToolStrategy</code> 适用于任何支持工具调用的模型；<code>ProviderStrategy</code> 仅适用于支持原生结构化输出的 provider</li>
+<li class="">从 <code>langchain 1.0</code> 起，直接传入 Pydantic schema（如 <code>response_format=ContactInfo</code>）会自动选择策略：provider 支持则用 <code>ProviderStrategy</code>，否则 fallback 到 <code>ToolStrategy</code></li>
+<li class="">使用 <code>ToolStrategy</code> 时，结构化输出的 schema 通过人工工具调用的参数定义，工具名由框架自动生成</li>
+<li class="">使用 <code>ProviderStrategy</code> 时，结构化输出由模型 provider 原生生成，不依赖工具调用机制</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="生成要求-4">生成要求<a href="#生成要求-4" class="hash-link" aria-label="Direct link to 生成要求" title="Direct link to 生成要求" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-schema-定义">1. Schema 定义<a href="#1-schema-定义" class="hash-link" aria-label="Direct link to 1. Schema 定义" title="Direct link to 1. Schema 定义" translate="no">​</a></h3>
+<ul>
+<li class="">必须使用 Pydantic <code>BaseModel</code> 定义输出结构，不可用 dict 或 TypedDict</li>
+<li class="">每个字段必须声明类型：<code>str</code>、<code>int</code>、<code>float</code>、<code>bool</code> 或嵌套 Pydantic 模型</li>
+<li class="">示例：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">from</span><span class="token plain"> pydantic </span><span class="token keyword" style="color:#00009f">import</span><span class="token plain"> BaseModel</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">class</span><span class="token plain"> </span><span class="token class-name">ContactInfo</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">BaseModel</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    name</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token builtin">str</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    email</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token builtin">str</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    phone</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token builtin">str</span><br></div></code></pre></div></div>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-策略选择">2. 策略选择<a href="#2-策略选择" class="hash-link" aria-label="Direct link to 2. 策略选择" title="Direct link to 2. 策略选择" translate="no">​</a></h3>
+<ul>
+<li class=""><strong>默认行为（推荐）</strong>：直接传入 Pydantic 类，让框架自动选择策略<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">agent </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> create_agent</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">model</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">.</span><span class="token punctuation" style="color:#393A34">.</span><span class="token punctuation" style="color:#393A34">.</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> response_format</span><span class="token operator" style="color:#393A34">=</span><span class="token plain">ContactInfo</span><span class="token punctuation" style="color:#393A34">)</span><br></div></code></pre></div></div>
+</li>
+<li class=""><strong>显式使用 ToolStrategy</strong>（跨模型兼容）：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">from</span><span class="token plain"> langchain</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">agents</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">structured_output </span><span class="token keyword" style="color:#00009f">import</span><span class="token plain"> ToolStrategy</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">agent </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> create_agent</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">model</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">.</span><span class="token punctuation" style="color:#393A34">.</span><span class="token punctuation" style="color:#393A34">.</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> response_format</span><span class="token operator" style="color:#393A34">=</span><span class="token plain">ToolStrategy</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">ContactInfo</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">)</span><br></div></code></pre></div></div>
+</li>
+<li class=""><strong>显式使用 ProviderStrategy</strong>（仅兼容特定 provider）：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">from</span><span class="token plain"> langchain</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">agents</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">structured_output </span><span class="token keyword" style="color:#00009f">import</span><span class="token plain"> ProviderStrategy</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">agent </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> create_agent</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">model</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">.</span><span class="token punctuation" style="color:#393A34">.</span><span class="token punctuation" style="color:#393A34">.</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> response_format</span><span class="token operator" style="color:#393A34">=</span><span class="token plain">ProviderStrategy</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">ContactInfo</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">)</span><br></div></code></pre></div></div>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-结果提取">3. 结果提取<a href="#3-结果提取" class="hash-link" aria-label="Direct link to 3. 结果提取" title="Direct link to 3. 结果提取" translate="no">​</a></h3>
+<ul>
+<li class="">结构化输出通过 <code>result[&quot;structured_response&quot;]</code> 获取，而非 <code>result[&quot;messages&quot;][-1].content</code></li>
+<li class=""><code>result[&quot;structured_response&quot;]</code> 返回的是 Pydantic 模型实例，可直接访问字段：<code>result[&quot;structured_response&quot;].name</code></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="反例-4">反例<a href="#反例-4" class="hash-link" aria-label="Direct link to 反例" title="Direct link to 反例" translate="no">​</a></h2>
+<ul>
+<li class="">❌ <code>response_format={&quot;name&quot;: str, &quot;email&quot;: str}</code> — 使用 dict 定义 schema<!-- -->
+<ul>
+<li class="">✅ FIX：使用 Pydantic <code>BaseModel</code> 定义</li>
+</ul>
+</li>
+<li class="">❌ 使用 <code>ToolStrategy</code> 时从 <code>result[&quot;messages&quot;][-1].content</code> 中手动解析 JSON<!-- -->
+<ul>
+<li class="">✅ FIX：使用 <code>result[&quot;structured_response&quot;]</code> 直接获取 Pydantic 实例</li>
+</ul>
+</li>
+<li class="">❌ 在不支持原生结构化输出的 provider 上强制使用 <code>ProviderStrategy</code>
+<ul>
+<li class="">✅ FIX：使用 <code>ToolStrategy</code> 或直接传入 schema 让框架自动 fallback
+LangChain Agent 记忆（Memory）</li>
+</ul>
+</li>
+</ul>
+<h1>约束：LangChain Agent 记忆（Memory）的代码规范</h1>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="技术边界-5">技术边界<a href="#技术边界-5" class="hash-link" aria-label="Direct link to 技术边界" title="Direct link to 技术边界" translate="no">​</a></h2>
+<ul>
+<li class="">Agent 记忆分为两种类型：<strong>对话历史</strong>（消息列表自动维护）和<strong>自定义状态</strong>（通过 <code>AgentState</code> 扩展）</li>
+<li class="">消息历史由 <code>checkpointer</code> 自动持久化，同一 <code>thread_id</code> 的消息自动拼接</li>
+<li class="">自定义状态通过继承 <code>AgentState</code>（TypedDict）实现，在对话过程中存储额外信息</li>
+<li class="">从 <code>langchain 1.0</code> 起，自定义 schema <strong>必须</strong>是 <code>TypedDict</code>，Pydantic 和 dataclass 已不再支持</li>
+<li class="">自定义状态有两种定义方式：<strong>通过 middleware</strong>（推荐，状态与 middleware/tools 作用域绑定）和<strong>通过 <code>state_schema</code> 参数</strong>（快捷方式，仅用于 tools 中访问状态）</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="生成要求-5">生成要求<a href="#生成要求-5" class="hash-link" aria-label="Direct link to 生成要求" title="Direct link to 生成要求" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-消息历史对话记忆">1. 消息历史（对话记忆）<a href="#1-消息历史对话记忆" class="hash-link" aria-label="Direct link to 1. 消息历史（对话记忆）" title="Direct link to 1. 消息历史（对话记忆）" translate="no">​</a></h3>
+<ul>
+<li class="">使用 <code>checkpointer</code> 参 数注入持久化机制</li>
+<li class="">开发/测试用 <code>InMemorySaver</code>，生产环境用 <code>PostgresSaver</code> 或其他数据库 backends</li>
+<li class="">每次 <code>invoke</code> 时通过 <code>config={&quot;configurable&quot;: {&quot;thread_id&quot;: &quot;...&quot;}}</code> 指定会话 ID</li>
+<li class="">同一会话的所有调用必须使用相同的 <code>thread_id</code></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-自定义状态--通过-middleware推荐方式">2. 自定义状态 — 通过 middleware（推荐方式）<a href="#2-自定义状态--通过-middleware推荐方式" class="hash-link" aria-label="Direct link to 2. 自定义状态 — 通过 middleware（推荐方式）" title="Direct link to 2. 自定义状态 — 通过 middleware（推荐方式）" translate="no">​</a></h3>
+<ul>
+<li class="">状态类必须继承 <code>AgentState</code> 且定义为 <code>TypedDict</code>：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">from</span><span class="token plain"> langchain</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">agents </span><span class="token keyword" style="color:#00009f">import</span><span class="token plain"> AgentState</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">class</span><span class="token plain"> </span><span class="token class-name">CustomState</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">AgentState</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    user_preferences</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token builtin">dict</span><br></div></code></pre></div></div>
+</li>
+<li class="">在自定义 middleware 类中通过 <code>state_schema</code> 属性绑定：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">class</span><span class="token plain"> </span><span class="token class-name">CustomMiddleware</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">AgentMiddleware</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    state_schema </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> CustomState</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    tools </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">[</span><span class="token plain">tool1</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> tool2</span><span class="token punctuation" style="color:#393A34">]</span><span class="token plain">  </span><span class="token comment" style="color:#999988;font-style:italic"># 需要访问该状态的工具</span><br></div></code></pre></div></div>
+</li>
+<li class="">在 middleware hook 中通过函数参数直接访问：<code>def before_model(self, state: CustomState, runtime)</code></li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-自定义状态--通过-state_schema-参数快捷方式">3. 自定义状态 — 通过 <code>state_schema</code> 参数（快捷方式）<a href="#3-自定义状态--通过-state_schema-参数快捷方式" class="hash-link" aria-label="Direct link to 3-自定义状态--通过-state_schema-参数快捷方式" title="Direct link to 3-自定义状态--通过-state_schema-参数快捷方式" translate="no">​</a></h3>
+<ul>
+<li class="">仅在工具需要访问额外状态时使用：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">class</span><span class="token plain"> </span><span class="token class-name">CustomState</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">AgentState</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    user_preferences</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token builtin">dict</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">agent </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> create_agent</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">model</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> tools</span><span class="token operator" style="color:#393A34">=</span><span class="token punctuation" style="color:#393A34">[</span><span class="token plain">tool1</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> tool2</span><span class="token punctuation" style="color:#393A34">]</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> state_schema</span><span class="token operator" style="color:#393A34">=</span><span class="token plain">CustomState</span><span class="token punctuation" style="color:#393A34">)</span><br></div></code></pre></div></div>
+</li>
+<li class="">调用 <code>invoke</code> 时传入自定义字段：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">result </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> agent</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">invoke</span><span class="token punctuation" style="color:#393A34">(</span><span class="token punctuation" style="color:#393A34">{</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token string" style="color:#e3116c">&quot;messages&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">[</span><span class="token punctuation" style="color:#393A34">{</span><span class="token string" style="color:#e3116c">&quot;role&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;user&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;content&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;...&quot;</span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">]</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token string" style="color:#e3116c">&quot;user_preferences&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token string" style="color:#e3116c">&quot;style&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;technical&quot;</span><span class="token punctuation" style="color:#393A34">}</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><br></div></code></pre></div></div>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-工具中访问自定义状态">4. 工具中访问自定义状态<a href="#4-工具中访问自定义状态" class="hash-link" aria-label="Direct link to 4. 工具中访问自定义状态" title="Direct link to 4. 工具中访问自定义状态" translate="no">​</a></h3>
+<ul>
+<li class="">工具函数通过 <code>ToolRuntime</code> 参数访问状态：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token decorator annotation punctuation" style="color:#393A34">@tool</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">def</span><span class="token plain"> </span><span class="token function" style="color:#d73a49">my_tool</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">query</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token builtin">str</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> runtime</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> ToolRuntime</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"> </span><span class="token operator" style="color:#393A34">-</span><span class="token operator" style="color:#393A34">&gt;</span><span class="token plain"> </span><span class="token builtin">str</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    user_prefs </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> runtime</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">state</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">get</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string" style="color:#e3116c">&quot;user_preferences&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">{</span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token comment" style="color:#999988;font-style:italic"># 使用状态数据</span><br></div></code></pre></div></div>
+</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="反例-5">反例<a href="#反例-5" class="hash-link" aria-label="Direct link to 反例" title="Direct link to 反例" translate="no">​</a></h2>
+<ul>
+<li class="">❌ 使用 Pydantic 模型定义 <code>CustomState</code>（已从 v1 起弃用）<!-- -->
+<ul>
+<li class="">✅ FIX：使用 <code>TypedDict</code> 定义，继承 <code>AgentState</code></li>
+</ul>
+</li>
+<li class="">❌ 同一用户的多轮对话使用不同的 <code>thread_id</code>
+<ul>
+<li class="">✅ FIX：为同一会话固定 <code>thread_id</code></li>
+</ul>
+</li>
+<li class="">❌ 生产环境使用 <code>InMemorySaver</code>
+<ul>
+<li class="">✅ FIX：替换为 <code>PostgresSaver.fromConnString(...)</code> 或其他持久化方案</li>
+</ul>
+</li>
+<li class="">❌ 在 middleware 外部修改 <code>state</code>（直接操作 <code>result[&quot;messages&quot;]</code>）<!-- -->
+<ul>
+<li class="">✅ FIX：通过 middleware hook 参数中的 <code>state</code> 修改，或通过 <code>invoke</code> 时的初始状态传入
+流式输出（Streaming）</li>
+</ul>
+</li>
+</ul>
+<h1>约束：LangChain Agent 流式输出（Streaming）的代码规范</h1>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="技术边界-6">技术边界<a href="#技术边界-6" class="hash-link" aria-label="Direct link to 技术边界" title="Direct link to 技术边界" translate="no">​</a></h2>
+<ul>
+<li class="">流式输出通过 <code>agent.stream()</code> 方法调用，非 <code>agent.invoke()</code></li>
+<li class=""><code>stream</code> 返回一个事件迭代器，每次迭代返回一个 chunk</li>
+<li class=""><code>stream_mode</code> 参数决定 chunk 的内容结构：<!-- -->
+<ul>
+<li class=""><code>stream_mode=&quot;values&quot;</code>：每次返回完整的 State 快照，<code>chunk[&quot;messages&quot;]</code> 包含当前所有消息</li>
+<li class=""><code>stream_mode=&quot;messages&quot;</code>：每次返回增量消息，仅包含新增的消息对象</li>
+</ul>
+</li>
+<li class="">每个 chunk 中通过 <code>chunk[&quot;messages&quot;][-1]</code> 获取最新消息</li>
+<li class="">消息类型判断使用 <code>isinstance</code>：<code>HumanMessage</code>（用户消息）、<code>AIMessage</code>（模型回复）、<code>ToolMessage</code>（工具返回）</li>
+<li class=""><code>AIMessage</code> 可能同时包含 <code>.content</code>（文本回复）和 <code>.tool_calls</code>（工具调用请求），需要分别处理</li>
+<li class=""><code>AIMessage</code> 的 <code>.content</code> 在存在 <code>.tool_calls</code> 时为空字符串，此时应读取 <code>.tool_calls</code> 字段</li>
+<li class="">流式调用不支持 <code>stream_mode</code> 的混合模式，单次 <code>stream</code> 调用只能选一种 mode</li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="生成要求-6">生成要求<a href="#生成要求-6" class="hash-link" aria-label="Direct link to 生成要求" title="Direct link to 生成要求" translate="no">​</a></h2>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="1-stream-调用结构">1. stream 调用结构<a href="#1-stream-调用结构" class="hash-link" aria-label="Direct link to 1. stream 调用结构" title="Direct link to 1. stream 调用结构" translate="no">​</a></h3>
+<ul>
+<li class="">必须使用 <code>for chunk in agent.stream(...)</code> 循环遍历迭代器</li>
+<li class="">第一个参数为 <code>{&quot;messages&quot;: [...]}</code>，与 <code>invoke</code> 格式相同</li>
+<li class=""><code>stream_mode</code> 必须显式传入，不可依赖默认值：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">for</span><span class="token plain"> chunk </span><span class="token keyword" style="color:#00009f">in</span><span class="token plain"> agent</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">stream</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token punctuation" style="color:#393A34">{</span><span class="token string" style="color:#e3116c">&quot;messages&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token punctuation" style="color:#393A34">[</span><span class="token punctuation" style="color:#393A34">{</span><span class="token string" style="color:#e3116c">&quot;role&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;user&quot;</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;content&quot;</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"> </span><span class="token string" style="color:#e3116c">&quot;...&quot;</span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">]</span><span class="token punctuation" style="color:#393A34">}</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    stream_mode</span><span class="token operator" style="color:#393A34">=</span><span class="token string" style="color:#e3116c">&quot;values&quot;</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">:</span><br></div></code></pre></div></div>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="2-消息提取与类型判断">2. 消息提取与类型判断<a href="#2-消息提取与类型判断" class="hash-link" aria-label="Direct link to 2. 消息提取与类型判断" title="Direct link to 2. 消息提取与类型判断" translate="no">​</a></h3>
+<ul>
+<li class="">从 chunk 中提取最新消息的固定模式：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">latest_message </span><span class="token operator" style="color:#393A34">=</span><span class="token plain"> chunk</span><span class="token punctuation" style="color:#393A34">[</span><span class="token string" style="color:#e3116c">&quot;messages&quot;</span><span class="token punctuation" style="color:#393A34">]</span><span class="token punctuation" style="color:#393A34">[</span><span class="token operator" style="color:#393A34">-</span><span class="token number" style="color:#36acaa">1</span><span class="token punctuation" style="color:#393A34">]</span><br></div></code></pre></div></div>
+</li>
+<li class="">必须按以下顺序判断消息类型，不可省略：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">if</span><span class="token plain"> </span><span class="token builtin">isinstance</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">latest_message</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> HumanMessage</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">print</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string-interpolation string" style="color:#e3116c">f&quot;User: </span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">{</span><span class="token string-interpolation interpolation">latest_message</span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">.</span><span class="token string-interpolation interpolation">content</span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">}</span><span class="token string-interpolation string" style="color:#e3116c">&quot;</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">elif</span><span class="token plain"> </span><span class="token builtin">isinstance</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">latest_message</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> AIMessage</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">if</span><span class="token plain"> latest_message</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">content</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token keyword" style="color:#00009f">print</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string-interpolation string" style="color:#e3116c">f&quot;Agent: </span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">{</span><span class="token string-interpolation interpolation">latest_message</span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">.</span><span class="token string-interpolation interpolation">content</span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">}</span><span class="token string-interpolation string" style="color:#e3116c">&quot;</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">if</span><span class="token plain"> latest_message</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">tool_calls</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">        </span><span class="token keyword" style="color:#00009f">print</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string-interpolation string" style="color:#e3116c">f&quot;Calling tools: </span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">{</span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">[</span><span class="token string-interpolation interpolation">tc</span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">[</span><span class="token string-interpolation interpolation string" style="color:#e3116c">&#x27;name&#x27;</span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">]</span><span class="token string-interpolation interpolation"> </span><span class="token string-interpolation interpolation keyword" style="color:#00009f">for</span><span class="token string-interpolation interpolation"> tc </span><span class="token string-interpolation interpolation keyword" style="color:#00009f">in</span><span class="token string-interpolation interpolation"> latest_message</span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">.</span><span class="token string-interpolation interpolation">tool_calls</span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">]</span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">}</span><span class="token string-interpolation string" style="color:#e3116c">&quot;</span><span class="token punctuation" style="color:#393A34">)</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"></span><span class="token keyword" style="color:#00009f">elif</span><span class="token plain"> </span><span class="token builtin">isinstance</span><span class="token punctuation" style="color:#393A34">(</span><span class="token plain">latest_message</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> ToolMessage</span><span class="token punctuation" style="color:#393A34">)</span><span class="token punctuation" style="color:#393A34">:</span><span class="token plain"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">    </span><span class="token keyword" style="color:#00009f">print</span><span class="token punctuation" style="color:#393A34">(</span><span class="token string-interpolation string" style="color:#e3116c">f&quot;Tool result: </span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">{</span><span class="token string-interpolation interpolation">latest_message</span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">.</span><span class="token string-interpolation interpolation">content</span><span class="token string-interpolation interpolation punctuation" style="color:#393A34">}</span><span class="token string-interpolation string" style="color:#e3116c">&quot;</span><span class="token punctuation" style="color:#393A34">)</span><br></div></code></pre></div></div>
+</li>
+<li class=""><code>AIMessage</code> 的 <code>.content</code> 和 <code>.tool_calls</code> 必须分开判断，两者可能同时出现或仅出现其一</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-导入依赖">3. 导入依赖<a href="#3-导入依赖" class="hash-link" aria-label="Direct link to 3. 导入依赖" title="Direct link to 3. 导入依赖" translate="no">​</a></h3>
+<ul>
+<li class="">必须导入消息类型：<!-- -->
+<div class="language-python codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-python codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token keyword" style="color:#00009f">from</span><span class="token plain"> langchain</span><span class="token punctuation" style="color:#393A34">.</span><span class="token plain">messages </span><span class="token keyword" style="color:#00009f">import</span><span class="token plain"> HumanMessage</span><span class="token punctuation" style="color:#393A34">,</span><span class="token plain"> AIMessage</span><br></div></code></pre></div></div>
+</li>
+<li class="">如果处理 <code>ToolMessage</code>，也需导入：<code>from langchain.messages import ToolMessage</code></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="反例-6">反例<a href="#反例-6" class="hash-link" aria-label="Direct link to 反例" title="Direct link to 反例" translate="no">​</a></h2>
+<ul>
+<li class="">❌ 用 <code>agent.invoke()</code> 替代 <code>agent.stream()</code> 做流式输出<!-- -->
+<ul>
+<li class="">✅ FIX：使用 <code>agent.stream()</code>，<code>invoke</code> 会阻塞等待全部完成</li>
+</ul>
+</li>
+<li class="">❌ <code>stream_mode</code> 未显式传入，依赖默认行为<!-- -->
+<ul>
+<li class="">✅ FIX：必须显式指定 <code>stream_mode=&quot;values&quot;</code> 或 <code>stream_mode=&quot;messages&quot;</code></li>
+</ul>
+</li>
+<li class="">❌ <code>latest_message.content</code> 在存在 <code>.tool_calls</code> 时仍被当作有效输出打印（内容为空字符串）<!-- -->
+<ul>
+<li class="">✅ FIX：先判断 <code>if latest_message.content:</code> 再打印文本</li>
+</ul>
+</li>
+<li class="">❌ 不区分 <code>HumanMessage</code> 和 <code>AIMessage</code>，直接用 <code>print(latest_message.content)</code> 打印所有消息<!-- -->
+<ul>
+<li class="">✅ FIX：使用 <code>isinstance</code> 判断消息类型，按角色分别格式化输出</li>
+</ul>
+</li>
+<li class="">❌ 工具调用时只打印 <code>latest_message.tool_calls</code> 而不打印工具名<!-- -->
+<ul>
+<li class="">✅ FIX：使用列表推导提取工具名：<code>[tc[&#x27;name&#x27;] for tc in latest_message.tool_calls]</code></li>
+</ul>
+</li>
+<li class="">❌ 忘记导入 <code>HumanMessage</code> 和 <code>AIMessage</code>，导致 <code>isinstance</code> 检查失败<!-- -->
+<ul>
+<li class="">✅ FIX：文件顶部显式 <code>from langchain.messages import HumanMessage, AIMessage</code></li>
+</ul>
+</li>
+</ul>
+<div class="language-text codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><div class="codeBlockContent_QJqH"><pre tabindex="0" class="prism-code language-text codeBlock_bY9V thin-scrollbar" style="color:#393A34;background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"><div class="token-line" style="color:#393A34"><span class="token plain">Middleware</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain"># 约束：LangChain Agent 中间件（Middleware）的代码规范</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">## 技术边界</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- Middleware 是 Agent 的扩展机制，通过装饰器或类拦截 Agent 执行流程的关键节点</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- Middleware 通过 `create_agent` 的 `middleware` 参数注入，接受单个实例或实例列表</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- 装饰器形式的 middleware：`@wrap_model_call`、`@wrap_tool_call`、`@before_model`、`@after_model`、`@dynamic_prompt`</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- 类形式的 middleware：继承 `AgentMiddleware`，可在单个类中组合多个 hook 和绑定的工具</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- `@wrap_model_call` 在模型调用前执行，可修改 `request.tools`、`request.model`</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- `@wrap_tool_call` 在工具执行前执行，可修改工具调用或捕获异常</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- `@before_model` 和 `@after_model` 不修改请求，分别用于模型调用前的状态处理和调用后的响应验证</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- 类形式 middleware 通过 `state_schema` 绑定自定义状态，通过 `tools` 属性绑定专属工具</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- 多个 middleware 按列表顺序执行，顺序影响最终行为</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">## 生成要求</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">### 1. 装饰器形式 Middleware — wrap_model_call</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- 导入路径：`from langchain.agents.middleware import wrap_model_call, ModelRequest, ModelResponse`</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- 函数签名固定为：`(request: ModelRequest, handler: Callable) -&gt; ModelResponse`</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- 修改请求时必须通过 `request.override(...)` 创建新请求，不可直接修改 `request` 的属性</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- 必须调用 `return handler(request)` 或 `return handler(request.override(...))`，不可省略</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain" style="display:inline-block"></span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">### 2. 装饰器形式 Middleware — wrap_tool_call</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- 导入路径：`from langchain.agents.middleware import wrap_tool_call`</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- 用于工具错误处理和动态工具执行</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">- 错误处理模式：</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  ```python</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  @wrap_tool_call</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">  def handle_tool_errors(request, handler):</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">      try:</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">          return handler(request)</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">      except Exception as e:</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">          return ToolMessage(</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">              content=f&quot;Tool error: {str(e)}&quot;,</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">              tool_call_id=request.tool_call[&quot;id&quot;]</span><br></div><div class="token-line" style="color:#393A34"><span class="token plain">          )</span><br></div></code></pre></div></div>
+<ul>
+<li class="">工具错误处理中返回的 <code>tool_call_id</code> 必须从 <code>request.tool_call[&quot;id&quot;]</code> 提取</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="3-装饰器形式-middleware--before_model--after_model">3. 装饰器形式 Middleware — before_model / after_model<a href="#3-装饰器形式-middleware--before_model--after_model" class="hash-link" aria-label="Direct link to 3. 装饰器形式 Middleware — before_model / after_model" title="Direct link to 3. 装饰器形式 Middleware — before_model / after_model" translate="no">​</a></h3>
+<ul>
+<li class=""><code>@before_model</code>：签名 <code>(state, runtime)</code>，返回 <code>dict | None</code>
+<ul>
+<li class="">返回 dict 时，该 dict 会合并到当前 State 中</li>
+<li class="">返回 None 时，不修改 State</li>
+</ul>
+</li>
+<li class=""><code>@after_model</code>：签名 <code>(state, runtime)</code>，返回 <code>dict | None</code>
+<ul>
+<li class="">用于响应后处理和验证</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="4-类形式-middleware--agentmiddleware">4. 类形式 Middleware — AgentMiddleware<a href="#4-类形式-middleware--agentmiddleware" class="hash-link" aria-label="Direct link to 4. 类形式 Middleware — AgentMiddleware" title="Direct link to 4. 类形式 Middleware — AgentMiddleware" translate="no">​</a></h3>
+<ul>
+<li class="">继承自 <code>AgentMiddleware</code></li>
+<li class="">可重写的方法：<code>wrap_model_call</code>、<code>wrap_tool_call</code>、<code>before_model</code>、<code>after_model</code></li>
+<li class="">类属性：<!-- -->
+<ul>
+<li class=""><code>state_schema</code>：绑定的自定义状态 TypedDict（推荐在类内定义，而非通过 <code>create_agent</code> 的 <code>state_schema</code> 参数）</li>
+<li class=""><code>tools</code>：此 middleware 专属的工具列表，与 <code>create_agent</code> 的 <code>tools</code> 合并</li>
+</ul>
+</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="5-动态工具-middleware运行时注册">5. 动态工具 Middleware（运行时注册）<a href="#5-动态工具-middleware运行时注册" class="hash-link" aria-label="Direct link to 5. 动态工具 Middleware（运行时注册）" title="Direct link to 5. 动态工具 Middleware（运行时注册）" translate="no">​</a></h3>
+<ul>
+<li class="">必须同时实现 <code>wrap_model_call</code> 和 <code>wrap_tool_call</code></li>
+<li class=""><code>wrap_model_call</code>：通过 <code>request.override(tools=[*request.tools, dynamic_tool])</code> 添加</li>
+<li class=""><code>wrap_tool_call</code>：判断 <code>request.tool_call[&quot;name&quot;]</code> 匹配后，通过 <code>handler(request.override(tool=dynamic_tool))</code> 指定执行函数</li>
+</ul>
+<h3 class="anchor anchorTargetStickyNavbar_Vzrq" id="6-动态-system-prompt-middleware">6. 动态 System Prompt Middleware<a href="#6-动态-system-prompt-middleware" class="hash-link" aria-label="Direct link to 6. 动态 System Prompt Middleware" title="Direct link to 6. 动态 System Prompt Middleware" translate="no">​</a></h3>
+<ul>
+<li class="">使用 <code>@dynamic_prompt</code> 装饰器</li>
+<li class="">函数签名：<code>(request: ModelRequest) -&gt; str</code></li>
+<li class="">返回值为字符串，不支持返回 <code>SystemMessage</code></li>
+</ul>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="反例-7">反例<a href="#反例-7" class="hash-link" aria-label="Direct link to 反例" title="Direct link to 反例" translate="no">​</a></h2>
+<ul>
+<li class="">❌ <code>return handler(request)</code> 后还尝试调用 <code>handler</code> 两次<!-- -->
+<ul>
+<li class="">✅ FIX：<code>handler</code> 只能调用一次，在 <code>wrap_model_call</code> 和 <code>wrap_tool_call</code> 中</li>
+</ul>
+</li>
+<li class="">❌ 直接修改 <code>request.tools = [...]</code> 而非使用 <code>.override()</code>
+<ul>
+<li class="">✅ FIX：<code>request = request.override(tools=[...])</code> 然后 <code>return handler(request)</code></li>
+</ul>
+</li>
+<li class="">❌ 使用 <code>before_model</code> 来修改 tools（model 看不到这个修改）<!-- -->
+<ul>
+<li class="">✅ FIX：修改 tools 必须在 <code>wrap_model_call</code> 中进行</li>
+</ul>
+</li>
+<li class="">❌ <code>@wrap_model_call</code> 函数的签名写为 <code>def my_fn(request, handler, extra_arg)</code>
+<ul>
+<li class="">✅ FIX：签名固定为 <code>(request, handler)</code> 两个参数</li>
+</ul>
+</li>
+<li class="">❌ 动态工具只在 <code>wrap_model_call</code> 注册，缺 <code>wrap_tool_call</code>
+<ul>
+<li class="">✅ FIX：必须同时实现两个 hook</li>
+</ul>
+</li>
+<li class="">❌ 类形式 middleware 忘记继承 <code>AgentMiddleware</code>
+<ul>
+<li class="">✅ FIX：<code>class MyMiddleware(AgentMiddleware):</code></li>
+</ul>
+</li>
+<li class="">❌ 多个 middleware 时，修改同一请求的 hook 顺序未考虑（如先过滤 tools 再添加 tools）<!-- -->
+<ul>
+<li class="">✅ FIX：在 <code>middleware</code> 列表中按逻辑排好顺序，先过滤再添加</li>
+</ul>
+</li>
+</ul>
+<pre tabindex="0" class="codeBlockStandalone_MEMb thin-scrollbar codeBlockContainer_Ckt0 theme-code-block" style="--prism-color:#393A34;--prism-background-color:#f6f8fa"><code class="codeBlockLines_e6Vv"></code></pre></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="Docs pages"><a class="pagination-nav__link pagination-nav__link--prev" href="/blog/AI/大 模型部署/显卡"><div class="pagination-nav__sublabel">Previous</div><div class="pagination-nav__label">显卡</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/blog/AI/langchain/model"><div class="pagination-nav__sublabel">Next</div><div class="pagination-nav__label">model</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#技术边界" class="table-of-contents__link toc-highlight">技术边界</a></li><li><a href="#生成要求" class="table-of-contents__link toc-highlight">生成要求</a><ul><li><a href="#1-模型选择决策优先使用模型实例" class="table-of-contents__link toc-highlight">1. 模型选择决策（优先使用模型实例）</a></li><li><a href="#2-模型实例chatopenai--chatanthropic-等" class="table-of-contents__link toc-highlight">2. 模型实例（ChatOpenAI / ChatAnthropic 等）</a></li><li><a href="#3-动态模型middleware-模式" class="table-of-contents__link toc-highlight">3. 动态模型（middleware 模式）</a></li><li><a href="#4-自动推断约束" class="table-of-contents__link toc-highlight">4. 自动推断约束</a></li></ul></li><li><a href="#反例" class="table-of-contents__link toc-highlight">反例</a></li><li><a href="#验收标准" class="table-of-contents__link toc-highlight">验收标准</a></li><li><a href="#技术边界-1" class="table-of-contents__link toc-highlight">技术边界</a></li><li><a href="#生成要求-1" class="table-of-contents__link toc-highlight">生成要求</a><ul><li><a href="#1-静态工具定义" class="table-of-contents__link toc-highlight">1. 静态工具定义</a></li><li><a href="#2-动态工具--过滤预注册工具" class="table-of-contents__link toc-highlight">2. 动态工具 — 过滤预注册工具</a></li><li><a href="#3-动态工具--运行时注册" class="table-of-contents__link toc-highlight">3. 动态工具 — 运行时注册</a></li><li><a href="#4-工具错误处理" class="table-of-contents__link toc-highlight">4. 工具错误处理</a></li></ul></li><li><a href="#反例-1" class="table-of-contents__link toc-highlight">反例</a></li><li><a href="#技术边界-2" class="table-of-contents__link toc-highlight">技术边界</a></li><li><a href="#生成要求-2" class="table-of-contents__link toc-highlight">生成要求</a><ul><li><a href="#1-静态-system-prompt字符串形式" class="table-of-contents__link toc-highlight">1. 静态 System Prompt（字符串形式）</a></li><li><a href="#2-静态-system-promptsystemmessage-形式" class="table-of-contents__link toc-highlight">2. 静态 System Prompt（SystemMessage 形式）</a></li><li><a href="#3-动态-system-prompt" class="table-of-contents__link toc-highlight">3. 动态 System Prompt</a></li></ul></li><li><a href="#反例-2" class="table-of-contents__link toc-highlight">反例</a></li><li><a href="#技术边界-3" class="table-of-contents__link toc-highlight">技术边界</a></li><li><a href="#生成要求-3" class="table-of-contents__link toc-highlight">生成要求</a><ul><li><a href="#1-invoke-调用" class="table-of-contents__link toc-highlight">1. invoke 调用</a></li><li><a href="#2-stream-流式调用" class="table-of-contents__link toc-highlight">2. stream 流式调用</a></li><li><a href="#3-消息格式兼容性" class="table-of-contents__link toc-highlight">3. 消息格式兼容性</a></li></ul></li><li><a href="#反例-3" class="table-of-contents__link toc-highlight">反例</a></li><li><a href="#技术边界-4" class="table-of-contents__link toc-highlight">技术边界</a></li><li><a href="#生成要求-4" class="table-of-contents__link toc-highlight">生成要求</a><ul><li><a href="#1-schema-定义" class="table-of-contents__link toc-highlight">1. Schema 定义</a></li><li><a href="#2-策略选择" class="table-of-contents__link toc-highlight">2. 策略选择</a></li><li><a href="#3-结果提取" class="table-of-contents__link toc-highlight">3. 结果提取</a></li></ul></li><li><a href="#反例-4" class="table-of-contents__link toc-highlight">反例</a></li><li><a href="#技术边界-5" class="table-of-contents__link toc-highlight">技术边界</a></li><li><a href="#生成要求-5" class="table-of-contents__link toc-highlight">生成要求</a><ul><li><a href="#1-消息历史对话记忆" class="table-of-contents__link toc-highlight">1. 消息历史（对话记忆）</a></li><li><a href="#2-自定义状态--通过-middleware推荐方式" class="table-of-contents__link toc-highlight">2. 自定义状态 — 通过 middleware（推荐方式）</a></li><li><a href="#3-自定义状态--通过-state_schema-参数快捷方式" class="table-of-contents__link toc-highlight">3. 自定义状态 — 通过 <code>state_schema</code> 参数（快捷方式）</a></li><li><a href="#4-工具中访问自定义状态" class="table-of-contents__link toc-highlight">4. 工具中访问自定义状态</a></li></ul></li><li><a href="#反例-5" class="table-of-contents__link toc-highlight">反例</a></li><li><a href="#技术边界-6" class="table-of-contents__link toc-highlight">技术边界</a></li><li><a href="#生成要求-6" class="table-of-contents__link toc-highlight">生成要求</a><ul><li><a href="#1-stream-调用结构" class="table-of-contents__link toc-highlight">1. stream 调用结构</a></li><li><a href="#2-消息提取与类型判断" class="table-of-contents__link toc-highlight">2. 消息提取与类型判断</a></li><li><a href="#3-导入依赖" class="table-of-contents__link toc-highlight">3. 导入依赖</a></li></ul></li><li><a href="#反例-6" class="table-of-contents__link toc-highlight">反例</a><ul><li><a href="#3-装饰器形式-middleware--before_model--after_model" class="table-of-contents__link toc-highlight">3. 装饰器形式 Middleware — before_model / after_model</a></li><li><a href="#4-类形式-middleware--agentmiddleware" class="table-of-contents__link toc-highlight">4. 类形式 Middleware — AgentMiddleware</a></li><li><a href="#5-动态工具-middleware运行时注册" class="table-of-contents__link toc-highlight">5. 动态工具 Middleware（运行时注册）</a></li><li><a href="#6-动态-system-prompt-middleware" class="table-of-contents__link toc-highlight">6. 动态 System Prompt Middleware</a></li></ul></li><li><a href="#反例-7" class="table-of-contents__link toc-highlight">反例</a></li></ul></div></div></div></div></main></div></div></div></div>
+</body>
+</html>
