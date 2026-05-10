@@ -30,6 +30,6 @@ AI Elements (最推荐尝试)
 
 集成可行性：非常高。
 
-做法：你完全放弃 useStream，自己写一个 useCustomSSE Hook 来获取数据，形成 messages 和 toolCalls 状态。然后直接将这个状态传给 AI Elements 的 <MessageList>、<Tool> 等组件。
+做法：你完全放弃 useStream，自己写一个 useCustomSSE Hook 来获取数据，形成 messages 和 toolCalls 状态。然后直接将这个状态传给 AI Elements 的 `<MessageList>`、`<Tool>`等组件。
 
 结论：完全可用。它不强制要求后端是 LangGraph Platform。

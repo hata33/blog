@@ -451,7 +451,7 @@ middleware = [
 
 【状态更新】
 - node-style：返回 dict，自动合并到 state
-- wrap-style：返回 ExtendedModelResponse(command=Command(update={...}))
+- wrap-style：返回 `ExtendedModelResponse(command=Command(update={...}))`
 - 自定义 state 字段使用 NotRequired 类型标注
 
 【错误处理】
@@ -460,7 +460,7 @@ middleware = [
 - 需要阻断的场景使用 raise 或 jump_to
 
 【短路跳转】
-- 返回 {"jump_to": "end"} 提前终止
+- 返回 `{"jump_to": "end"} `提前终止
 - 需在装饰器声明 can_jump_to=["end"]
 
 【动态配置】

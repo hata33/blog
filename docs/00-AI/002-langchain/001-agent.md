@@ -75,15 +75,18 @@ Hook	触发时机	用途
 
 七、调用与流式输出
 # 同步
+```
 result = agent.invoke({"messages": [{"role": "user", "content": "..."}]})
 answer = result["messages"][-1].content_blocks
-
+```
 # 流式
+```
 for chunk in agent.stream({"messages": [...]}, stream_mode="values"):
     latest = chunk["messages"][-1]
     if isinstance(latest, AIMessage):
         if latest.content: print(latest.content)
         if latest.tool_calls: print(latest.tool_calls)
+```
 核心约束：
 ● invoke 必须传入消息列表，不可传字符串
 ● 流式必须区分消息类型（HumanMessage / AIMessage / ToolMessage）

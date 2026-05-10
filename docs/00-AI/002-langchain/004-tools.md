@@ -562,7 +562,7 @@ ToolNode(tools, handle_tool_errors=(ValueError, TypeError))
 ## 技术边界
 - LangChain 提供大量开箱即用的工具（搜索、代码解释器、数据库等）
 - 预构建工具通过对应集成包导入，不需要编写工具定义函数
-- 完整列表在 [tools and toolkits 集成页面](/oss/python/integrations/tools)
+- 完整列表在 tools and toolkits 集成页面
 - 预构建工具可以直接加入 `tools` 列表传递
 
 ## 生成要求
